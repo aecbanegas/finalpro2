@@ -518,6 +518,9 @@ public class Principal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_crearbdMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bt_crearbdMouseEntered(evt);
+            }
         });
         bt_crearbd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -698,6 +701,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void process() {
+        DefaultComboBoxModel cbmod=new DefaultComboBoxModel();
         DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
         modelo.setRoot(raiz);
@@ -708,6 +712,7 @@ public class Principal extends javax.swing.JFrame {
             for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
                 if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
                     agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                    cbmod.addElement(basesdedatos.get(i));
                     System.out.println(basesdedatos.get(i));
                     break;
                 }
@@ -722,7 +727,8 @@ public class Principal extends javax.swing.JFrame {
             princ.add(agregar);
             }
         }
-        modelo.reload();
+        modelo.reload();                
+        cb_guardaren.setModel(cbmod);
     }
 
     private void jmi_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crearActionPerformed
@@ -1217,35 +1223,35 @@ public class Principal extends javax.swing.JFrame {
 
     private void cargarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarbdMouseClicked
         // TODO add your handling code here:
-//        try {
-//            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
-//            if (((DefaultMutableTreeNode) v1).getUserObject() instanceof Tablas) {
-//                cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
-//                ArrayList<String> atrib = cargada.getAtributos();
-//                String[] titulo = new String[atrib.size()];
-//                for (int i = 0; i < titulo.length; i++) {
-//                    titulo[i] = atrib.get(i);
-//                }
-//                tabla.setModel(new javax.swing.table.DefaultTableModel(
-//                        new Object[][]{},
-//                        titulo
-//                ));
-//                DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
-//                ArrayList<String> detalle = cargada.getDetalle();
-//                for (int i = 0; i < detalle.size(); i++) {
-//                    Object[] row = detalle.get(i).split(",");
-//                    tm.addRow(row);
-//                }
-//                tabla.setModel(tm);
-//                JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
-//            } else {
-//                JOptionPane.showMessageDialog(jd_menu, "El objeto seleccionado no es una tabla!");
-//            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(jd_menu, "Ha ocurrido un error");
-//            e.printStackTrace();
-//        }
+        try {
+            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
+            if (((DefaultMutableTreeNode) v1).getUserObject() instanceof Tablas) {
+                cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
+                ArrayList<String> atrib = cargada.getAtributos();
+                String[] titulo = new String[atrib.size()];
+                for (int i = 0; i < titulo.length; i++) {
+                    titulo[i] = atrib.get(i);
+                }
+                tabla.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object[][]{},
+                        titulo
+                ));
+                DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                ArrayList<String> detalle = cargada.getDetalle();
+                for (int i = 0; i < detalle.size(); i++) {
+                    Object[] row = detalle.get(i).split(",");
+                    tm.addRow(row);
+                }
+                tabla.setModel(tm);
+                JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
+            } else {
+                JOptionPane.showMessageDialog(jd_menu, "El objeto seleccionado no es una tabla!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jd_menu, "Ha ocurrido un error");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_cargarbdMouseClicked
 
     private void tf_usuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_usuKeyPressed
@@ -1261,6 +1267,10 @@ public class Principal extends javax.swing.JFrame {
             inicia();
         }
     }//GEN-LAST:event_jButton1KeyPressed
+
+    private void bt_crearbdMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearbdMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_crearbdMouseEntered
 
     /**
      * @param args the command line arguments
