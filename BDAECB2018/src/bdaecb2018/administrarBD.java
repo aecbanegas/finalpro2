@@ -47,8 +47,26 @@ public class administrarBD {
         this.path = path;
     }
 
+    private void funcionEliminarCarpeta1(File pArchivo) {
+        if (!pArchivo.exists()) {
+            return;
+        }
+
+        if (pArchivo.isDirectory()) {
+            for (File f : pArchivo.listFiles()) {
+                funcionEliminarCarpeta1(f);
+            }
+        }
+        pArchivo.delete();
+    }
+    
     public void escribirArchivo() {
-        try {
+        funcionEliminarCarpeta1(archivo);
+        try {            
+            if (archivo.exists()) {                
+            }else{
+            archivo.mkdir();
+            }
             for (int i = 0; i < actual.size(); i++) {
                 String nom = actual.get(i).getNombre();
                 File aqui = new File(path + "/" + nom);
@@ -67,13 +85,14 @@ public class administrarBD {
                 administrarUsuarios au = new administrarUsuarios(path + "/" + nom + "/Usuarios.BDAECB");
                 au.setUsuarios(actual.get(i).getColaboradores());
                 au.escribirArchivo();
-            }
+            }            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void cargarArchivo() {
+        actual=new ArrayList();
         try {
             File[]list=archivo.listFiles();
             File[]list2;
