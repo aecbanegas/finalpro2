@@ -5,26 +5,24 @@
  */
 package bdaecb2018;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
  * @author MBanegas
  */
-public class bdatos implements Serializable{
-
-    String nombre;   
-    Usuarios usuario;    
-    ArrayList<String> scripts = new ArrayList();
+public class bdatos implements Serializable{    
+    String nombre;       
+    ArrayList<Tablas>tablas=new ArrayList();
+    Script usado;
     ArrayList<Usuarios> colaboradores = new ArrayList();
     
     private static final long SerialVersionUID=2;
     
-    public bdatos(String nombre,Usuarios usuario) {
-        this.nombre = nombre;        
-        this.usuario=usuario;
+    public bdatos(String nombre) {
+        this.nombre = nombre;                
     }
 
     public String getNombre() {
@@ -35,22 +33,23 @@ public class bdatos implements Serializable{
         this.nombre = nombre;
     }
 
-    public Usuarios getUsuario() {
-        return usuario;
+    public ArrayList<Tablas> getTablas() {
+        return tablas;
     }
 
-    public void setUsuario(Usuarios usuario) {
-        this.usuario = usuario;
+    public void setTablas(ArrayList<Tablas> tablas) {
+        this.tablas = tablas;
     }
 
-    public ArrayList<String> getScripts() {
-        return scripts;
+    public Script getUsado() {
+        return usado;
     }
 
-    public void setScripts(ArrayList<String> scripts) {
-        this.scripts = scripts;
+    public void setUsado(Script usado) {
+        this.usado = usado;
     }
 
+    
     public ArrayList<Usuarios> getColaboradores() {
         return colaboradores;
     }
