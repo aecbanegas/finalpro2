@@ -1,0 +1,7 @@
+#Encabezado
+nombre:vaquero
+base_de_datos:Adios
+creador:admin
+fecha_creacion:11/12/2018
+atributos:id,nombre,edad
+#Detalles

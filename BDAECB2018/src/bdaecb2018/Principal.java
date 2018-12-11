@@ -893,21 +893,7 @@ public class Principal extends javax.swing.JFrame {
                                             System.out.println(basesdedatos);
                                             process();
                                         }
-                                    }
-                                    if (mostrar[1].equals("TABLE")) {
-                                        boolean flag = true;
-                                        Scanner p = new Scanner(mostrar[2]);
-                                        p.useDelimiter("[(]");
-                                        String n = p.next();
-                                        for (int i = 0; i < basesdedatos.size(); i++) {
-                                            if (basesdedatos.get(i).getNombre().equals(((bdatos)cb_guardaren.getSelectedItem()).getNombre())) {
-                                                forsql=basesdedatos.get(i);
-                                                break;
-                                            }
-                                        }
-                                        
-                                    }
-//                                        if (flag) {
+                                        //                                        if (flag) {
 //                                            abd.getBasesdedatos().add(new bdatos(mostrar[2], usuarioact));
 //                                            abd.escribirArchivo();
 //                                            abd.cargarArchivo();
@@ -927,21 +913,51 @@ public class Principal extends javax.swing.JFrame {
 //                                            sql.setText("");
 //                                        }
 //                                    }
+
+                                    }
+                                    if (mostrar[1].equals("TABLE")) {
+                                        boolean flag = true;
+                                        Scanner p = new Scanner(mostrar[2]);
+                                        p.useDelimiter("[(]");
+                                        String n = p.next();
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (basesdedatos.get(i).getNombre().equals(((bdatos)cb_guardaren.getSelectedItem()).getNombre())) {
+                                                forsql=basesdedatos.get(i);
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                            if (forsql.getTablas().get(i).getNombre().equals(n)) {
+                                                flag=false;
+                                                break;
+                                            }
+                                        }
+                                        if (flag) {
+                                            Scanner sc = new Scanner(mostrar[2]);
+                                            sc.useDelimiter("[(]");
+                                            String nombre = sc.next();
+                                            Scanner s2 = new Scanner(sc.next());
+                                            s2.useDelimiter("[)]");
+                                            Scanner s3 = new Scanner(s2.next());
+                                            s3.useDelimiter(",");
+                                            ArrayList<String> Atributos = new ArrayList();
+                                            while (s3.hasNext()) {
+                                                Atributos.add(s3.next());
+                                            }
+                                            Date fecha = new Date();
+                                            Tablas parc=new Tablas(nombre, usuarioact.getUsuario(), fecha, forsql.getNombre());
+                                            parc.setAtributos(Atributos);
+                                            forsql.getTablas().add(parc);
+                                            abd.setActual(basesdedatos);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            process();
+                                        }
+                                    }
+
 //                                    if (mostrar[1].equals("TABLE")) {
                                         
-//                                        if (flag) {
-//                                            Scanner sc = new Scanner(mostrar[2]);
-//                                            sc.useDelimiter("[(]");
-//                                            String nombre = sc.next();
-//                                            Scanner s2 = new Scanner(sc.next());
-//                                            s2.useDelimiter("[)]");
-//                                            Scanner s3 = new Scanner(s2.next());
-//                                            s3.useDelimiter(",");
-//                                            ArrayList<String> Atributos = new ArrayList();
-//                                            while (s3.hasNext()) {
-//                                                Atributos.add(s3.next());
-//                                            }
-//                                            Date fecha = new Date();
+//                                        if (flag) {                                            
 //                                            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
 //                                            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
 //                                            DefaultMutableTreeNode hijo = null;
