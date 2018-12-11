@@ -701,7 +701,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void process() {
-        DefaultComboBoxModel cbmod=new DefaultComboBoxModel();
+        DefaultComboBoxModel cbmod = new DefaultComboBoxModel();
         DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
         modelo.setRoot(raiz);
@@ -724,10 +724,10 @@ public class Principal extends javax.swing.JFrame {
                         agregar.add(tb);
                     }
                 }
-            princ.add(agregar);
+                princ.add(agregar);
             }
         }
-        modelo.reload();                
+        modelo.reload();
         cb_guardaren.setModel(cbmod);
     }
 
@@ -865,21 +865,48 @@ public class Principal extends javax.swing.JFrame {
         if (evt.getKeyCode() == evt.VK_SPACE || evt.getKeyCode() == evt.VK_ENTER) {
             ColPal cp = new ColPal(sql);
         }
-//        if (evt.getKeyCode() == evt.VK_ENTER) {
-//            try {
-//                String[] mostrar = sql.getText().split(" ");
-//                if (mostrar.length >= 1) {
-//                    switch (mostrar[0]) {
-//                        case "CREATE":
-//                            if (mostrar.length == 3) {
-//                                if (create) {
-//                                    if (mostrar[1].equals("DATABASE")) {
-//                                        boolean flag = true;
-//                                        for (int i = 0; i < basesdedatos.size(); i++) {
-//                                            if (mostrar[2].equals(basesdedatos.get(i).getNombre())) {
-//                                                JOptionPane.showMessageDialog(jd_menu, "Ya existe una base de datos con ese nombre, vuelva a intentar con otro nombre!");
-//                                            }
-//                                        }
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            try {
+                String[] mostrar = sql.getText().split(" ");
+                if (mostrar.length >= 1) {
+                    switch (mostrar[0]) {
+                        case "CREATE":
+                            if (mostrar.length == 3) {
+                                if (create) {
+                                    if (mostrar[1].equals("DATABASE")) {
+                                        boolean flag = true;
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (mostrar[2].equals(basesdedatos.get(i).getNombre())) {
+                                                JOptionPane.showMessageDialog(jd_menu, "Ya existe una base de datos con ese nombre, vuelva a intentar con otro nombre!");
+                                            }
+                                        }
+                                        if (flag) {
+                                            forsql = new bdatos(mostrar[2]);
+                                            forsql.getColaboradores().add(usuarioact);
+                                            abd.getActual().add(forsql);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            basesdedatos.clear();
+                                            for (int i = 0; i < abd.getActual().size(); i++) {
+                                                basesdedatos.add(abd.getActual().get(i));
+                                            }
+                                            System.out.println(basesdedatos);
+                                            process();
+                                        }
+                                    }
+                                    if (mostrar[1].equals("TABLE")) {
+                                        boolean flag = true;
+                                        Scanner p = new Scanner(mostrar[2]);
+                                        p.useDelimiter("[(]");
+                                        String n = p.next();
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (basesdedatos.get(i).getNombre().equals(((bdatos)cb_guardaren.getSelectedItem()).getNombre())) {
+                                                forsql=basesdedatos.get(i);
+                                                break;
+                                            }
+                                        }
+                                        
+                                    }
 //                                        if (flag) {
 //                                            abd.getBasesdedatos().add(new bdatos(mostrar[2], usuarioact));
 //                                            abd.escribirArchivo();
@@ -901,15 +928,7 @@ public class Principal extends javax.swing.JFrame {
 //                                        }
 //                                    }
 //                                    if (mostrar[1].equals("TABLE")) {
-//                                        boolean flag = true;
-//                                        Scanner p = new Scanner(mostrar[2]);
-//                                        p.useDelimiter("[(]");
-//                                        String n = p.next();
-//                                        for (int i = 0; i < tablas.size(); i++) {
-//                                            if (n.equals(tablas.get(i).getNombre())) {
-//                                                flag = false;
-//                                            }
-//                                        }
+                                        
 //                                        if (flag) {
 //                                            Scanner sc = new Scanner(mostrar[2]);
 //                                            sc.useDelimiter("[(]");
@@ -947,14 +966,14 @@ public class Principal extends javax.swing.JFrame {
 //                                            JOptionPane.showMessageDialog(jd_menu, "No se creo la tabla debido a que ya existe una tabla con ese nombre!");
 //                                        }
 //                                    }
-//                                } else {
-//                                    JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para crear tablas ni bases de datos!");
-//                                }
-//                            }
-//                            break;
-//                        case "DROP":
-//                            if (mostrar.length == 3) {
-//                                if (drop) {
+                                } else {
+                                    JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para crear tablas ni bases de datos!");
+                                }
+                            }
+                            break;
+                        case "DROP":
+                            if (mostrar.length == 3) {
+                                if (drop) {
 //                                    if (mostrar[1].equals("DATABASE")) {
 //                                        String nombd = mostrar[2];
 //                                        for (int i = 0; i < basesdedatos.size(); i++) {
@@ -1014,13 +1033,13 @@ public class Principal extends javax.swing.JFrame {
 //                                        JOptionPane.showMessageDialog(jd_menu, "Se elimino la tabla de forma correcto!");
 //                                        sql.setText("");
 //                                    }
-//                                } else {
-//                                    JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para eliminar tablas u bases de datos!");
-//                                }
-//                            }
-//                            break;
-//                        case "GRANT":
-//                            if (mostrar.length == 5) {
+                                } else {
+                                    JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para eliminar tablas u bases de datos!");
+                                }
+                            }
+                            break;
+                        case "GRANT":
+                            if (mostrar.length == 5) {
 //                                if (mostrar[1].equals("DATABASE") && mostrar[3].equals("TO")) {
 //                                    String bd = mostrar[2];
 //                                    String usuario = mostrar[4];
@@ -1066,28 +1085,28 @@ public class Principal extends javax.swing.JFrame {
 //                                } else {
 //                                    JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
 //                                }
-//                            } else {
-//                                JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
-//                            }
-//                            break;
-//                        case "INSERT":
-//
-//                            break;
-//                        case "SELECT":
-//                            break;
-//                        case "UPDATE":
-//                            break;
-//                        case "DELETE":
-//                            break;
-//                        case "TRUNCATE":
-//                            break;
-//                    }
-//                }
-//            } catch (Exception e) {
-//                JOptionPane.showMessageDialog(jd_menu, "La linea de codigo esta mal escrita!");
-//                e.printStackTrace();
-//            }
-//        }
+                            } else {
+                                JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
+                            }
+                            break;
+                        case "INSERT":
+
+                            break;
+                        case "SELECT":
+                            break;
+                        case "UPDATE":
+                            break;
+                        case "DELETE":
+                            break;
+                        case "TRUNCATE":
+                            break;
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(jd_menu, "La linea de codigo esta mal escrita!");
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_sqlKeyPressed
 
     private void jd_menuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jd_menuKeyPressed
@@ -1138,7 +1157,7 @@ public class Principal extends javax.swing.JFrame {
             String nombre = tf_nombrebd.getText();
             boolean flag = !validBD(nombre);
             if (flag) {
-                bdatos t=new bdatos(nombre);
+                bdatos t = new bdatos(nombre);
                 t.getColaboradores().add(usuarioact);
                 abd.getActual().add(t);
                 abd.escribirArchivo();
@@ -1150,8 +1169,8 @@ public class Principal extends javax.swing.JFrame {
                 process();
                 jd_crearbd.dispose();
                 JOptionPane.showMessageDialog(jd_crearbd, "Se creo la base de datos correctamente!");
-            }else{
-            Integer.parseInt("aecb");
+            } else {
+                Integer.parseInt("aecb");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(jd_crearbd, "Algunos datos son incorrectos!");
@@ -1177,7 +1196,7 @@ public class Principal extends javax.swing.JFrame {
             DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
             Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
-            if (((DefaultMutableTreeNode) v1).getUserObject() instanceof bdatos) {                
+            if (((DefaultMutableTreeNode) v1).getUserObject() instanceof bdatos) {
                 for (int i = 0; i < basesdedatos.size(); i++) {
                     if (basesdedatos.get(i).getNombre().equals(((bdatos) ((DefaultMutableTreeNode) v1).getUserObject()).getNombre())) {
                         basesdedatos.remove(i);
@@ -1185,7 +1204,7 @@ public class Principal extends javax.swing.JFrame {
                 }
                 abd.setActual(basesdedatos);
                 abd.escribirArchivo();
-                abd.cargarArchivo();        
+                abd.cargarArchivo();
                 basesdedatos.clear();
                 for (int i = 0; i < abd.getActual().size(); i++) {
                     basesdedatos.add(abd.getActual().get(i));
@@ -1388,5 +1407,5 @@ public class Principal extends javax.swing.JFrame {
     private boolean delete;
     private boolean drop;
     ArrayList<bdatos> basesdedatos = new ArrayList();
-    bdatos access;
+    bdatos access, forsql;
 }
