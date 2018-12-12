@@ -109,7 +109,7 @@ public class administrarTablas {
                                 atributos.add(s2.next());
                             }
                         }
-                        System.out.println(sc.next());
+                        sc.next();
                         ArrayList<String> detalle = new ArrayList();
                         while (sc.hasNext()) {
                             detalle.add(sc.next());

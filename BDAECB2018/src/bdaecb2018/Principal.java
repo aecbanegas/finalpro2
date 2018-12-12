@@ -43,7 +43,7 @@ public class Principal extends javax.swing.JFrame {
         abd.cargarArchivo();
         for (int i = 0; i < abd.getActual().size(); i++) {
             basesdedatos.add(abd.getActual().get(i));
-        }        
+        }
         for (int i = 0; i < au.getUsuarios().size(); i++) {
             usuarios.add(au.getUsuarios().get(i));
         }
@@ -722,8 +722,7 @@ public class Principal extends javax.swing.JFrame {
             for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
                 if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
                     agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
-                    cbmod.addElement(basesdedatos.get(i));
-                    System.out.println(basesdedatos.get(i));
+                    cbmod.addElement(basesdedatos.get(i));                    
                     break;
                 }
             }
@@ -1090,8 +1089,7 @@ public class Principal extends javax.swing.JFrame {
                                         sc.next();
                                         Scanner s2 = new Scanner(sc.next());
                                         s2.useDelimiter("[)]");
-                                        String detalle = s2.next();
-                                        System.out.println(detalle);
+                                        String detalle = s2.next();                                        
                                         if (exist) {
                                             for (int i = 0; i < look.getTablas().size(); i++) {
                                                 if (look.getTablas().get(i).getNombre().equals(nomTab)) {
@@ -1120,10 +1118,192 @@ public class Principal extends javax.swing.JFrame {
 
                             break;
                         case "UPDATE":
-
+                            if (mostrar.length == 6) {
+                                for (int i = 0; i < basesdedatos.size(); i++) {
+                                    if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                        forsql = basesdedatos.get(i);
+                                        break;
+                                    }
+                                }
+                                String nomTab = mostrar[1];
+                                String cambio = mostrar[3];
+                                Scanner s = new Scanner(cambio);
+                                s.useDelimiter("[=]");
+                                String camp = s.next();
+                                String cump = s.next();
+                                int contm = 0;
+                                String condicion = mostrar[5];
+                                boolean mayor = false, menor = false, igual = false;
+                                for (int i = 0; i < condicion.length(); i++) {
+                                    switch (condicion.charAt(i)) {
+                                        case '<':
+                                            menor = true;
+                                            break;
+                                        case '>':
+                                            mayor = true;
+                                            break;
+                                        case '=':
+                                            igual = true;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }                                
+                                Scanner sc = new Scanner(condicion);
+                                sc.useDelimiter("[=]|[>]|[<]");
+                                String campo = sc.next();                                
+                                String cumple = sc.next();                                
+                                for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                    if (nomTab.equals(forsql.getTablas().get(i).getNombre())) {
+                                        ref = forsql.getTablas().get(i);
+                                        break;
+                                    }
+                                }
+                                int cont = 0;
+                                for (int i = 0; i < ref.getAtributos().size(); i++) {
+                                    if (ref.getAtributos().get(i).equals(campo)) {
+                                        cont = i;
+                                    }
+                                    if (ref.getAtributos().get(i).equals(camp)) {
+                                        contm = i;
+                                    }
+                                }                                
+                                ArrayList<Integer> listaparamodificar = new ArrayList();
+                                for (int i = 0; i < ref.getDetalle().size(); i++) {
+                                    String det = ref.getDetalle().get(i);                                    
+                                    Scanner s2 = new Scanner(det);
+                                    s2.useDelimiter(",");
+                                    for (int j = 0; j <= cont; j++) {
+                                        if (j == cont) {
+                                            if (igual) {
+                                                if (cumple.equals(s2.next())) {
+                                                    listaparamodificar.add(i);
+                                                }
+                                            }
+                                            if (mayor) {
+                                                if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
+                                                    listaparamodificar.add(i);
+                                                }
+                                            }
+                                            if (menor) {
+                                                if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
+                                                    listaparamodificar.add(i);
+                                                }
+                                            }
+                                        } else {
+                                            s2.next();
+                                        }
+                                    }
+                                }
+                                for (int i = 0; i < listaparamodificar.size(); i++) {
+                                    int num = listaparamodificar.get(i);
+                                    int c = 0;
+                                    String camb = ref.getDetalle().get(num);
+                                    String nuv = "";
+                                    Scanner a = new Scanner(camb);
+                                    a.useDelimiter(",");
+                                    while (a.hasNext()) {
+                                        String next = a.next();
+                                        if (c == contm) {
+                                            if (a.hasNext()) {
+                                                nuv += cump + ",";
+                                            } else {
+                                                nuv += cump;
+                                            }
+                                        } else if (a.hasNext()) {
+                                            nuv += next + ",";
+                                        } else {
+                                            nuv += next;
+                                        }
+                                        c++;
+                                    }
+                                    ref.getDetalle().set(num, nuv);
+                                }
+                                abd.setActual(basesdedatos);
+                                abd.escribirArchivo();
+                                abd.cargarArchivo();
+                                process();
+                                JOptionPane.showMessageDialog(jd_menu, "Se ejecuto la accion correctamente!");
+                                sql.setText("");
+                            }
                             break;
                         case "DELETE":
-
+                            if (mostrar.length == 5) {
+                                for (int i = 0; i < basesdedatos.size(); i++) {
+                                    if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                        forsql = basesdedatos.get(i);
+                                        break;
+                                    }
+                                }
+                                String nomTab = mostrar[2];
+                                String condicion = mostrar[4];
+                                boolean mayor = false, menor = false, igual = false;
+                                for (int i = 0; i < condicion.length(); i++) {
+                                    if (condicion.charAt(i) == '<') {
+                                        menor = true;
+                                    } else if (condicion.charAt(i) == '>') {
+                                        mayor = true;
+                                    } else if (condicion.charAt(i) == '=') {
+                                        igual = true;
+                                    }
+                                }                                
+                                Scanner sc = new Scanner(condicion);
+                                sc.useDelimiter("[=]|[>]|[<]");
+                                String campo = sc.next();                                
+                                String cumple = sc.next();                                
+                                for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                    if (nomTab.equals(forsql.getTablas().get(i).getNombre())) {
+                                        ref = forsql.getTablas().get(i);
+                                        break;
+                                    }
+                                }
+                                int cont = 0;
+                                for (int i = 0; i < ref.getAtributos().size(); i++) {
+                                    if (ref.getAtributos().get(i).equals(campo)) {
+                                        cont = i;
+                                    }
+                                }                                
+                                ArrayList<Integer> listaparaborrar = new ArrayList();
+                                for (int i = 0; i < ref.getDetalle().size(); i++) {
+                                    String det = ref.getDetalle().get(i);                                    
+                                    Scanner s2 = new Scanner(det);
+                                    s2.useDelimiter(",");
+                                    for (int j = 0; j <= cont; j++) {
+                                        if (j == cont) {
+                                            if (igual) {
+                                                if (cumple.equals(s2.next())) {
+                                                    listaparaborrar.add(i);
+                                                }
+                                            }
+                                            if (mayor) {
+                                                if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
+                                                    listaparaborrar.add(i);
+                                                }
+                                            }
+                                            if (menor) {
+                                                if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
+                                                    listaparaborrar.add(i);
+                                                }
+                                            }
+                                        } else {
+                                            s2.next();
+                                        }
+                                    }
+                                }                                
+                                for (int i = 0; i < listaparaborrar.size(); i++) {
+                                    int num = listaparaborrar.get(i);
+                                    ref.getDetalle().remove(num);
+                                    for (int j = 0; j < listaparaborrar.size(); j++) {
+                                        listaparaborrar.set(j, (listaparaborrar.get(j) - 1));
+                                    }
+                                }
+                                abd.setActual(basesdedatos);
+                                abd.escribirArchivo();
+                                abd.cargarArchivo();
+                                process();
+                                JOptionPane.showMessageDialog(jd_menu, "Se ejecuto la accion correctamente!");
+                                sql.setText("");
+                            }
                             break;
                         case "TRUNCATE":
                             if (mostrar.length == 3) {
@@ -1257,8 +1437,7 @@ public class Principal extends javax.swing.JFrame {
                 basesdedatos.clear();
                 for (int i = 0; i < abd.getActual().size(); i++) {
                     basesdedatos.add(abd.getActual().get(i));
-                }
-                System.out.println(basesdedatos);
+                }                
                 ((DefaultMutableTreeNode) v1).removeAllChildren();
                 raiz.remove((DefaultMutableTreeNode) v1);
                 modelo.reload();
@@ -1270,23 +1449,6 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(jd_menu, "Ha ocurrido un error!");
             e.printStackTrace();
         }
-//        try {
-//            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-//            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-//            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
-//            for (int i = 0; i < tablas.size(); i++) {
-//                if (tablas.get(i).getNombre().equals(((Tablas) ((DefaultMutableTreeNode) v1).getUserObject()).getNombre())) {
-//                    tablas.remove(i);
-//                }
-//            }
-//            at.setLista(tablas);
-//            at.escribirArchivo();
-//            raiz.remove((DefaultMutableTreeNode) v1);
-//            modelo.reload();
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
-//            e.printStackTrace();
-//        }
     }//GEN-LAST:event_bt_eliminardbMouseClicked
 
     private void cargarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarbdMouseClicked
