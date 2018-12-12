@@ -1,0 +1,7 @@
+#Encabezado
+nombre:alumno
+base_de_datos:Escuela
+creador:admin
+fecha_creacion:11/04/9618
+atributos:id,nombre,edad
+#Detalles
