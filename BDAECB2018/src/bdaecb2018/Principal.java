@@ -1024,18 +1024,24 @@ public class Principal extends javax.swing.JFrame {
                                     }
                                     if (mostrar[1].equals("TABLE")) {
                                         String nomtab = mostrar[2];
-                                        forsql=(bdatos)cb_guardaren.getSelectedItem();
+                                        boolean flag = false;
+                                        forsql = (bdatos) cb_guardaren.getSelectedItem();
                                         for (int i = 0; i < forsql.getTablas().size(); i++) {
                                             if (nomtab.equals(forsql.getTablas().get(i).getNombre())) {
                                                 forsql.getTablas().remove(i);
+                                                flag = true;
                                                 break;
                                             }
                                         }
-                                        abd.setActual(basesdedatos);
-                                        abd.escribirArchivo();
-                                        abd.cargarArchivo();
-                                        process();
-                                        JOptionPane.showMessageDialog(jd_menu, "Se elimino la tabla de forma correcto!");
+                                        if (flag) {
+                                            abd.setActual(basesdedatos);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            process();
+                                            JOptionPane.showMessageDialog(jd_menu, "Se elimino la tabla de forma correcto!");
+                                        } else {
+                                            JOptionPane.showMessageDialog(jd_menu, "La tabla no existe o no pertenece a la base de datos seleccionada!");
+                                        }
                                         sql.setText("");
                                     }
                                 } else {
@@ -1045,9 +1051,55 @@ public class Principal extends javax.swing.JFrame {
                             break;
                         case "GRANT":
                             if (mostrar.length == 5) {
+                                if (mostrar[1].equals("DATABASE") && mostrar[3].equals("TO")) {
+                                    String bd = mostrar[2];
+                                    String usuario = mostrar[4];
+                                    if (!usuarioact.getUsuario().equals(usuario)) {
+                                        boolean pertenece = false, noexist = true, existe = false;
+                                        for (int i = 0; i < usuarios.size(); i++) {
+                                            if (usuario.equals(usuarios.get(i).getUsuario())) {
+                                                existe = true;
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (basesdedatos.get(i).getNombre().equals(bd)) {
+                                                forsql = basesdedatos.get(i);
+                                                break;
+                                            }
+                                        }
+                                        if (forsql.getNombre().equals(bd)) {
+                                            for (int i = 0; i < forsql.getColaboradores().size(); i++) {
+                                                if (usuarioact.getUsuario().equals(forsql.getColaboradores().get(i).getUsuario())) {
+                                                    pertenece = true;
+                                                }
+                                                if (usuario.equals(forsql.getColaboradores().get(i).getUsuario())) {
+                                                    noexist = false;
+                                                }
+                                            }
+                                            if (noexist && pertenece && existe) {
+                                                for (int i = 0; i < usuarios.size(); i++) {
+                                                    if (usuario.equals(usuarios.get(i).getUsuario())) {
+                                                        usuarioaccess = usuarios.get(i);
+                                                        break;
+                                                    }
+                                                }
+                                                forsql.getColaboradores().add(usuarioaccess);
+                                                abd.setActual(basesdedatos);
+                                                abd.escribirArchivo();
+                                                abd.cargarArchivo();
+                                                process();
+                                                JOptionPane.showMessageDialog(jd_menu, "Se ha dado acceso a " + bd + " al usuario " + usuario);
+                                                sql.setText("");
+                                            }
+                                        }
+                                    } else {
+                                        JOptionPane.showMessageDialog(jd_menu, "No es posible dar acceso a uno mismo!");
+                                    }
+
+                                }
 //                                if (mostrar[1].equals("DATABASE") && mostrar[3].equals("TO")) {
-//                                    String bd = mostrar[2];
-//                                    String usuario = mostrar[4];
+
 //                                    for (int i = 0; i < basesdedatos.size(); i++) {
 //                                        if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario()) && bd.equals(basesdedatos.get(i).getNombre())) {
 //                                            access = basesdedatos.get(i);
@@ -1095,7 +1147,17 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "INSERT":
-
+                            if (mostrar.length == 4) {
+                                if (mostrar[1].equals("INTO")) {
+                                    String nomTab=mostrar[2];
+                                    String valores=mostrar[3];
+                                    Scanner sc=new Scanner(valores);
+                                    sc.useDelimiter("[(]");
+                                    sc.next();
+                                    Scanner s2=new Scanner(sc.next());
+                                    s2.useDelimiter("[)]");
+                                }
+                            }
                             break;
                         case "SELECT":
                             break;
