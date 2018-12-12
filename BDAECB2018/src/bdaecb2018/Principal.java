@@ -1165,11 +1165,7 @@ public class Principal extends javax.swing.JFrame {
                                     }
                                     if (cont > 0) {
                                         String c = mostrar[1];
-                                        String[] campos = c.split(",");
-                                        if (conp > 0) {
-                                            String tab = mostrar[3];
-                                            String[] tablas = tab.split(",");
-                                        } else {
+                                        String[] campos = c.split(",");                                         
                                             String tab = mostrar[3];
                                             for (int i = 0; i < basesdedatos.size(); i++) {
                                                 if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
@@ -1219,7 +1215,7 @@ public class Principal extends javax.swing.JFrame {
                                             tabla.setModel(mod);
                                             sql.setText("");
                                             JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
-                                        }
+                                        
                                     } else {
                                         String campo = mostrar[1];
                                         String tab = mostrar[3];
@@ -1274,7 +1270,25 @@ public class Principal extends javax.swing.JFrame {
                             }
                             if (mostrar.length == 6) {
                                 if (mostrar[1].equals("*")) {
-
+//                                    if (conp > 0) {
+//                                            String tab = mostrar[3];
+//                                            String[] tabs = tab.split(",");
+//                                            ArrayList<Tablas>para=new ArrayList();
+//                                            for (int i = 0; i < basesdedatos.size(); i++) {
+//                                                if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+//                                                    forsql = basesdedatos.get(i);
+//                                                    break;
+//                                                }
+//                                            }
+//                                            for (int i = 0; i < forsql.getTablas().size(); i++) {
+//                                                for (int j = 0; j < tabs.length; j++) {
+//                                                    if (tabs[j].equals(forsql.getTablas().get(i).getNombre())) {
+//                                                        para.add(forsql.getTablas().get(i));
+//                                                    }
+//                                                }
+//                                            }
+//                                            System.out.println(para);
+//                                        }
                                 } else {
 
                                 }
