@@ -43,14 +43,7 @@ public class Principal extends javax.swing.JFrame {
         abd.cargarArchivo();
         for (int i = 0; i < abd.getActual().size(); i++) {
             basesdedatos.add(abd.getActual().get(i));
-        }
-        System.out.println(basesdedatos);
-//        for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
-//            basesdedatos.add(abd.getBasesdedatos().get(i));
-//        }
-//        for (int i = 0; i < at.getLista().size(); i++) {
-//            tablas.add(at.getLista().get(i));
-//        }
+        }        
         for (int i = 0; i < au.getUsuarios().size(); i++) {
             usuarios.add(au.getUsuarios().get(i));
         }
@@ -78,6 +71,8 @@ public class Principal extends javax.swing.JFrame {
         cargarbd = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         cb_guardaren = new javax.swing.JComboBox<>();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_crear = new javax.swing.JMenuItem();
@@ -192,7 +187,16 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("Las tablas se guardaran en:");
+        jLabel18.setText("Base de datos con la que se trabajara el codigo sql:");
+
+        jLabel19.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("SQL:");
+
+        jLabel20.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel20.setText("Tabla:");
 
         jMenu1.setText("Administracion");
 
@@ -253,7 +257,9 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(96, 96, 96)
                         .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cb_guardaren, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cb_guardaren, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_menuLayout.setVerticalGroup(
@@ -271,8 +277,12 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jLabel18)
                                 .addGap(4, 4, 4)
                                 .addComponent(cb_guardaren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())
@@ -781,7 +791,7 @@ public class Principal extends javax.swing.JFrame {
     private void pf_contKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pf_contKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == evt.VK_ENTER) {
-//            inicia();
+            inicia();
         }
     }//GEN-LAST:event_pf_contKeyPressed
 
@@ -892,27 +902,8 @@ public class Principal extends javax.swing.JFrame {
                                             }
                                             process();
                                             sql.setText("");
+                                            JOptionPane.showMessageDialog(jd_menu, "Se creo la base de datos de manera exitosa!");
                                         }
-                                        //                                        if (flag) {
-//                                            abd.getBasesdedatos().add(new bdatos(mostrar[2], usuarioact));
-//                                            abd.escribirArchivo();
-//                                            abd.cargarArchivo();
-//                                            basesdedatos.clear();
-//                                            for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
-//                                                basesdedatos.add(abd.getBasesdedatos().get(i));
-//                                            }
-//                                            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-//                                            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-//                                            DefaultMutableTreeNode add = new DefaultMutableTreeNode(basesdedatos.get(basesdedatos.size() - 1));
-//                                            raiz.add(add);
-//                                            DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-//                                            model.addElement(basesdedatos.get(basesdedatos.size() - 1));
-//                                            cb_guardaren.setModel(model);
-//                                            modelo.reload();
-//                                            JOptionPane.showMessageDialog(jd_menu, "Se creo de manera exitosa la base de datos!");                                           
-//                                        }
-//                                    }
-
                                     }
                                     if (mostrar[1].equals("TABLE")) {
                                         boolean flag = true;
@@ -952,35 +943,9 @@ public class Principal extends javax.swing.JFrame {
                                             abd.cargarArchivo();
                                             process();
                                             sql.setText("");
+                                            JOptionPane.showMessageDialog(jd_menu, "Se creo la tabla de manera exitosa!");
                                         }
                                     }
-
-//                                    if (mostrar[1].equals("TABLE")) {
-//                                        if (flag) {                                            
-//                                            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-//                                            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-//                                            DefaultMutableTreeNode hijo = null;
-//                                            for (int i = 0; i < raiz.getChildCount(); i++) {
-//                                                if (((bdatos) ((DefaultMutableTreeNode) (raiz.getChildAt(i))).getUserObject()).getNombre().equals(((bdatos) (cb_guardaren.getSelectedItem())).getNombre())) {
-//                                                    hijo = (DefaultMutableTreeNode) raiz.getChildAt(i);
-//                                                }
-//                                            }
-//                                            DefaultMutableTreeNode add = new DefaultMutableTreeNode(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
-//                                            Tablas nuevo = new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString());
-//                                            nuevo.setAtributos(Atributos);
-//                                            at.getLista().add(nuevo);
-//                                            hijo.add(add);
-//                                            modelo.reload();
-//                                            at.escribirArchivo();
-//                                            at.cargarArchivo();
-//                                            tablas.add(nuevo);
-//                                            process();
-//                                            JOptionPane.showMessageDialog(jd_menu, "Se creo la tabla de manera exitosa!");
-//                                            sql.setText("");
-//                                        } else {
-//                                            JOptionPane.showMessageDialog(jd_menu, "No se creo la tabla debido a que ya existe una tabla con ese nombre!");
-//                                        }
-//                                    }
                                 } else {
                                     JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para crear tablas ni bases de datos!");
                                 }
@@ -1098,50 +1063,6 @@ public class Principal extends javax.swing.JFrame {
                                     }
 
                                 }
-//                                if (mostrar[1].equals("DATABASE") && mostrar[3].equals("TO")) {
-
-//                                    for (int i = 0; i < basesdedatos.size(); i++) {
-//                                        if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario()) && bd.equals(basesdedatos.get(i).getNombre())) {
-//                                            access = basesdedatos.get(i);
-//                                            break;
-//                                        } else {
-//                                            access = null;
-//                                        }
-//                                    }
-//                                    boolean flag = true;
-//                                    if (access != null) {
-//                                        for (int i = 0; i < access.getColaboradores().size(); i++) {
-//                                            if (usuario.equals(access.getColaboradores().get(i).getUsuario())) {
-//                                                flag = false;
-//                                            }
-//                                        }
-//                                    }
-//                                    if (flag) {
-//                                        for (int i = 0; i < usuarios.size(); i++) {
-//                                            if (usuario.equals(usuarios.get(i).getUsuario()) && !usuario.equals(usuarioact.getUsuario())) {
-//                                                usuarioaccess = usuarios.get(i);
-//                                                break;
-//                                            } else {
-//                                                usuarioaccess = null;
-//                                            }
-//                                        }
-//                                    } else {
-//                                        access = null;
-//                                    }
-//                                    if (access != null && usuarioaccess != null) {
-//                                        access.getColaboradores().add(usuarioaccess);
-//                                        abd.setBasesdedatos(basesdedatos);
-//                                        abd.escribirArchivo();
-//                                        abd.cargarArchivo();
-//                                        JOptionPane.showMessageDialog(jd_menu, "Se ha dado autorizacion al usuario para ingresar a la base de datos de manera correcta!");
-//                                        sql.setText("");
-//                                    } else {
-//                                        JOptionPane.showMessageDialog(jd_menu, "No existe la base de datos o el usuario!\nNo se puede compartir una base de datos consigomismo!");
-//                                        sql.setText("");
-//                                    }
-//                                } else {
-//                                    JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
-//                                }
                             } else {
                                 JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
                             }
@@ -1149,23 +1070,84 @@ public class Principal extends javax.swing.JFrame {
                         case "INSERT":
                             if (mostrar.length == 4) {
                                 if (mostrar[1].equals("INTO")) {
-                                    String nomTab=mostrar[2];
-                                    String valores=mostrar[3];
-                                    Scanner sc=new Scanner(valores);
-                                    sc.useDelimiter("[(]");
-                                    sc.next();
-                                    Scanner s2=new Scanner(sc.next());
-                                    s2.useDelimiter("[)]");
+                                    String nomTab = mostrar[2];
+                                    String valores = mostrar[3];
+                                    boolean exist = false;
+                                    bdatos look = null;
+                                    try {
+                                        look = (bdatos) cb_guardaren.getSelectedItem();
+                                    } catch (Exception e) {
+                                    }
+                                    if (look != null) {
+                                        for (int i = 0; i < look.getTablas().size(); i++) {
+                                            if (look.getTablas().get(i).getNombre().equals(nomTab)) {
+                                                exist = true;
+                                                break;
+                                            }
+                                        }
+                                        Scanner sc = new Scanner(valores);
+                                        sc.useDelimiter("[(]");
+                                        sc.next();
+                                        Scanner s2 = new Scanner(sc.next());
+                                        s2.useDelimiter("[)]");
+                                        String detalle = s2.next();
+                                        System.out.println(detalle);
+                                        if (exist) {
+                                            for (int i = 0; i < look.getTablas().size(); i++) {
+                                                if (look.getTablas().get(i).getNombre().equals(nomTab)) {
+                                                    look.getTablas().get(i).getDetalle().add(detalle);
+                                                    break;
+                                                }
+                                            }
+                                            for (int i = 0; i < basesdedatos.size(); i++) {
+                                                if (basesdedatos.get(i).equals(look)) {
+                                                    basesdedatos.set(i, look);
+                                                    break;
+                                                }
+                                            }
+                                            abd.setActual(basesdedatos);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            process();
+                                            sql.setText("");
+                                            JOptionPane.showMessageDialog(jd_menu, "Se agrego la fila a la tabla!");
+                                        }
+                                    }
                                 }
                             }
                             break;
                         case "SELECT":
+
                             break;
                         case "UPDATE":
+
                             break;
                         case "DELETE":
+
                             break;
                         case "TRUNCATE":
+                            if (mostrar.length == 3) {
+                                if (mostrar[1].equals("TABLE")) {
+                                    String nomTab = mostrar[2];
+                                    for (int i = 0; i < basesdedatos.size(); i++) {
+                                        if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                            forsql = basesdedatos.get(i);
+                                            break;
+                                        }
+                                    }
+                                    for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                        if (forsql.getTablas().get(i).getNombre().equals(nomTab)) {
+                                            forsql.getTablas().get(i).getDetalle().clear();
+                                            break;
+                                        }
+                                    }
+                                    abd.setActual(basesdedatos);
+                                    abd.escribirArchivo();
+                                    abd.cargarArchivo();
+                                    process();
+                                    JOptionPane.showMessageDialog(jd_menu, "Se borraron los registros de la tabla!");
+                                }
+                            }
                             break;
                     }
                 }
@@ -1412,7 +1394,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

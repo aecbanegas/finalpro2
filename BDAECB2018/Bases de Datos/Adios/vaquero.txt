@@ -2,6 +2,6 @@
 nombre:vaquero
 base_de_datos:Adios
 creador:admin
-fecha_creacion:11/10/21018
+fecha_creacion:11/01/26718
 atributos:id,nombre,edad
 #Detalles

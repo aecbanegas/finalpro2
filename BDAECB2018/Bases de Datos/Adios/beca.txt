@@ -1,7 +1,0 @@
-#Encabezado
-nombre:beca
-base_de_datos:Adios
-creador:prueba
-fecha_creacion:11/12/2018
-atributos:id,cuenta,porcentaje
-#Detalles
