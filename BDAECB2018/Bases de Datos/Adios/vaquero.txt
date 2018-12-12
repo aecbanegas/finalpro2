@@ -2,8 +2,9 @@
 nombre:vaquero
 base_de_datos:Adios
 creador:admin
-fecha_creacion:11/03/53318
+fecha_creacion:11/04/55218
 atributos:id,nombre,edad
 #Detalles
 0801,Andres,20
 0801,Iris,18
+0401,Miguel,15

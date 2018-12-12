@@ -722,7 +722,7 @@ public class Principal extends javax.swing.JFrame {
             for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
                 if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
                     agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
-                    cbmod.addElement(basesdedatos.get(i));                    
+                    cbmod.addElement(basesdedatos.get(i));
                     break;
                 }
             }
@@ -1089,7 +1089,7 @@ public class Principal extends javax.swing.JFrame {
                                         sc.next();
                                         Scanner s2 = new Scanner(sc.next());
                                         s2.useDelimiter("[)]");
-                                        String detalle = s2.next();                                        
+                                        String detalle = s2.next();
                                         if (exist) {
                                             for (int i = 0; i < look.getTablas().size(); i++) {
                                                 if (look.getTablas().get(i).getNombre().equals(nomTab)) {
@@ -1115,7 +1115,12 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "SELECT":
-
+                            if (mostrar.length==4) {
+                                
+                            }
+                            if (mostrar.length==6) {
+                                
+                            }
                             break;
                         case "UPDATE":
                             if (mostrar.length == 6) {
@@ -1148,11 +1153,11 @@ public class Principal extends javax.swing.JFrame {
                                         default:
                                             break;
                                     }
-                                }                                
+                                }
                                 Scanner sc = new Scanner(condicion);
                                 sc.useDelimiter("[=]|[>]|[<]");
-                                String campo = sc.next();                                
-                                String cumple = sc.next();                                
+                                String campo = sc.next();
+                                String cumple = sc.next();
                                 for (int i = 0; i < forsql.getTablas().size(); i++) {
                                     if (nomTab.equals(forsql.getTablas().get(i).getNombre())) {
                                         ref = forsql.getTablas().get(i);
@@ -1167,10 +1172,10 @@ public class Principal extends javax.swing.JFrame {
                                     if (ref.getAtributos().get(i).equals(camp)) {
                                         contm = i;
                                     }
-                                }                                
+                                }
                                 ArrayList<Integer> listaparamodificar = new ArrayList();
                                 for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                    String det = ref.getDetalle().get(i);                                    
+                                    String det = ref.getDetalle().get(i);
                                     Scanner s2 = new Scanner(det);
                                     s2.useDelimiter(",");
                                     for (int j = 0; j <= cont; j++) {
@@ -1246,11 +1251,11 @@ public class Principal extends javax.swing.JFrame {
                                     } else if (condicion.charAt(i) == '=') {
                                         igual = true;
                                     }
-                                }                                
+                                }
                                 Scanner sc = new Scanner(condicion);
                                 sc.useDelimiter("[=]|[>]|[<]");
-                                String campo = sc.next();                                
-                                String cumple = sc.next();                                
+                                String campo = sc.next();
+                                String cumple = sc.next();
                                 for (int i = 0; i < forsql.getTablas().size(); i++) {
                                     if (nomTab.equals(forsql.getTablas().get(i).getNombre())) {
                                         ref = forsql.getTablas().get(i);
@@ -1262,10 +1267,10 @@ public class Principal extends javax.swing.JFrame {
                                     if (ref.getAtributos().get(i).equals(campo)) {
                                         cont = i;
                                     }
-                                }                                
+                                }
                                 ArrayList<Integer> listaparaborrar = new ArrayList();
                                 for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                    String det = ref.getDetalle().get(i);                                    
+                                    String det = ref.getDetalle().get(i);
                                     Scanner s2 = new Scanner(det);
                                     s2.useDelimiter(",");
                                     for (int j = 0; j <= cont; j++) {
@@ -1289,7 +1294,7 @@ public class Principal extends javax.swing.JFrame {
                                             s2.next();
                                         }
                                     }
-                                }                                
+                                }
                                 for (int i = 0; i < listaparaborrar.size(); i++) {
                                     int num = listaparaborrar.get(i);
                                     ref.getDetalle().remove(num);
@@ -1437,7 +1442,7 @@ public class Principal extends javax.swing.JFrame {
                 basesdedatos.clear();
                 for (int i = 0; i < abd.getActual().size(); i++) {
                     basesdedatos.add(abd.getActual().get(i));
-                }                
+                }
                 ((DefaultMutableTreeNode) v1).removeAllChildren();
                 raiz.remove((DefaultMutableTreeNode) v1);
                 modelo.reload();
