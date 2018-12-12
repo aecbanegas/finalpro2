@@ -1115,11 +1115,168 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "SELECT":
-                            if (mostrar.length==4) {
-                                
+                            if (mostrar.length == 4) {
+//                                SELECT persona.Nombre, Notas.Clase, Notas.Nota_Final
+//FROM Persona, Notas
+//WHERE Persona.nombre = notas.Nombre_Persona AND  Notas.Nota_Final>90
+
+                                if (mostrar[1].equals("*")) {
+                                    String tab = mostrar[3];
+                                    for (int i = 0; i < basesdedatos.size(); i++) {
+                                        if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                            forsql = basesdedatos.get(i);
+                                            break;
+                                        }
+                                    }
+                                    for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                        if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                            cargada = forsql.getTablas().get(i);
+                                            break;
+                                        }
+                                    }
+                                    ArrayList<String> atrib = cargada.getAtributos();
+                                    String[] titulo = new String[atrib.size()];
+                                    for (int i = 0; i < titulo.length; i++) {
+                                        titulo[i] = atrib.get(i);
+                                    }
+                                    tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                            new Object[][]{},
+                                            titulo
+                                    ));
+                                    DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                                    ArrayList<String> detalle = cargada.getDetalle();
+                                    for (int i = 0; i < detalle.size(); i++) {
+                                        Object[] row = detalle.get(i).split(",");
+                                        tm.addRow(row);
+                                    }
+                                    tabla.setModel(tm);
+                                    JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
+                                    sql.setText("");
+                                } else {
+                                    int cont = 0;
+                                    int conp = 0;
+                                    for (int i = 0; i < mostrar[1].length(); i++) {
+                                        if (mostrar[1].charAt(i) == ',') {
+                                            cont++;
+                                        }
+                                        if (mostrar[1].charAt(i) == '.') {
+                                            conp++;
+                                        }
+                                    }
+                                    if (cont > 0) {
+                                        String c = mostrar[1];
+                                        String[] campos = c.split(",");
+                                        if (conp > 0) {
+                                            String tab = mostrar[3];
+                                            String[] tablas = tab.split(",");
+                                        } else {
+                                            String tab = mostrar[3];
+                                            for (int i = 0; i < basesdedatos.size(); i++) {
+                                                if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                                    forsql = basesdedatos.get(i);
+                                                    break;
+                                                }
+                                            }
+                                            for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                                if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                                    cargada = forsql.getTablas().get(i);
+                                                    break;
+                                                }
+                                            }
+                                            ArrayList<Integer> posiciones = new ArrayList();
+                                            for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                                for (int j = 0; j < campos.length; j++) {
+                                                    if (campos[j].equals(cargada.getAtributos().get(i))) {
+                                                        posiciones.add(i);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                    new Object[][]{},
+                                                    campos
+                                            ));
+                                            DefaultTableModel mod=(DefaultTableModel)tabla.getModel();
+                                            for (int i = 0; i < cargada.getDetalle().size(); i++) {
+                                                ArrayList<String>fil=new ArrayList();
+                                                for (int j = 0; j < posiciones.size(); j++) {
+                                                    int lim = 0;
+                                                    Scanner sc = new Scanner(cargada.getDetalle().get(i));
+                                                    sc.useDelimiter(",");
+                                                    while (sc.hasNext()) {
+                                                        String next = sc.next();
+                                                        if (lim == posiciones.get(j)) {
+                                                            fil.add(next);                                                            
+                                                        }
+                                                    }
+                                                }
+                                                Object[]row=new Object[fil.size()];
+                                                for (int j = 0; j < fil.size(); j++) {
+                                                    row[j]=fil.get(j);
+                                                }
+                                                mod.addRow(row);
+                                            }
+                                            tabla.setModel(mod);
+                                            sql.setText("");
+                                        }
+                                    } else {
+                                        String campo = mostrar[1];
+                                        String tab = mostrar[3];
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                                forsql = basesdedatos.get(i);
+                                                break;
+                                            }
+                                        }
+                                        for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                            if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                                ref = forsql.getTablas().get(i);
+                                                break;
+                                            }
+                                        }
+                                        int c = 0;
+                                        for (int i = 0; i < ref.getAtributos().size(); i++) {
+                                            if (ref.getAtributos().get(i).equals(campo)) {
+                                                c = i;
+                                                break;
+                                            }
+                                        }
+                                        System.out.println(c);
+                                        String[] cmp = {campo};
+                                        tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                new Object[][]{},
+                                                cmp
+                                        ));
+                                        DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+                                        for (int i = 0; i < ref.getDetalle().size(); i++) {
+                                            System.out.println("entra al for");
+                                            int lim = 0;
+                                            Scanner sc = new Scanner(ref.getDetalle().get(i));
+                                            sc.useDelimiter(",");
+                                            while (sc.hasNext()) {
+                                                System.out.println("entra al while");
+                                                String next = sc.next();
+                                                if (c == lim) {
+                                                    System.out.println("entra al if");
+                                                    Object[] row = {next};
+                                                    mod.addRow(row);
+                                                    break;
+                                                }
+                                                lim++;
+                                            }
+                                        }
+                                        tabla.setModel(mod);
+                                        sql.setText(tab);
+                                        JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+                                    }
+                                }
                             }
-                            if (mostrar.length==6) {
-                                
+                            if (mostrar.length == 6) {
+                                if (mostrar[1].equals("*")) {
+
+                                } else {
+
+                                }
                             }
                             break;
                         case "UPDATE":
