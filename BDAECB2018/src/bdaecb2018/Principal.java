@@ -1196,9 +1196,9 @@ public class Principal extends javax.swing.JFrame {
                                                     new Object[][]{},
                                                     campos
                                             ));
-                                            DefaultTableModel mod=(DefaultTableModel)tabla.getModel();
+                                            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
                                             for (int i = 0; i < cargada.getDetalle().size(); i++) {
-                                                ArrayList<String>fil=new ArrayList();
+                                                ArrayList<String> fil = new ArrayList();
                                                 for (int j = 0; j < posiciones.size(); j++) {
                                                     int lim = 0;
                                                     Scanner sc = new Scanner(cargada.getDetalle().get(i));
@@ -1206,18 +1206,19 @@ public class Principal extends javax.swing.JFrame {
                                                     while (sc.hasNext()) {
                                                         String next = sc.next();
                                                         if (lim == posiciones.get(j)) {
-                                                            fil.add(next);                                                            
+                                                            fil.add(next);
                                                         }
                                                     }
                                                 }
-                                                Object[]row=new Object[fil.size()];
+                                                Object[] row = new Object[fil.size()];
                                                 for (int j = 0; j < fil.size(); j++) {
-                                                    row[j]=fil.get(j);
+                                                    row[j] = fil.get(j);
                                                 }
                                                 mod.addRow(row);
                                             }
                                             tabla.setModel(mod);
                                             sql.setText("");
+                                            JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
                                         }
                                     } else {
                                         String campo = mostrar[1];
