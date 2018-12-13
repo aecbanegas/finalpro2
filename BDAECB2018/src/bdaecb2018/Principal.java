@@ -1306,24 +1306,20 @@ public class Principal extends javax.swing.JFrame {
                                                     c = i;
                                                     break;
                                                 }
-                                            }
-                                            System.out.println(c);
+                                            }                                            
                                             String[] cmp = {campo};
                                             tabla.setModel(new javax.swing.table.DefaultTableModel(
                                                     new Object[][]{},
                                                     cmp
                                             ));
                                             DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
-                                            for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                                System.out.println("entra al for");
+                                            for (int i = 0; i < ref.getDetalle().size(); i++) {                                                
                                                 int lim = 0;
                                                 Scanner sc = new Scanner(ref.getDetalle().get(i));
                                                 sc.useDelimiter(",");
-                                                while (sc.hasNext()) {
-                                                    System.out.println("entra al while");
+                                                while (sc.hasNext()) {                                                    
                                                     String next = sc.next();
-                                                    if (c == lim) {
-                                                        System.out.println("entra al if");
+                                                    if (c == lim) {                                                        
                                                         Object[] row = {next};
                                                         mod.addRow(row);
                                                         break;
@@ -1521,8 +1517,7 @@ public class Principal extends javax.swing.JFrame {
                                                 Scanner css = new Scanner(cs);
                                                 css.useDelimiter(",");
                                                 while (css.hasNext()) {
-                                                    String next = css.next();
-                                                    System.out.println(next);
+                                                    String next = css.next();                                                    
                                                     Scanner re = new Scanner(next);
                                                     re.useDelimiter("[.]");
                                                     String next1 = re.next();
@@ -1611,8 +1606,7 @@ public class Principal extends javax.swing.JFrame {
                                                             }
                                                         }
                                                     }
-                                                }
-                                                System.out.println(pos);
+                                                }                                                
                                                 Object[] campos = new Object[camposselect.size()];
                                                 for (int i = 0; i < camposselect.size(); i++) {
                                                     campos[i] = camposselect.get(i);
@@ -1683,23 +1677,19 @@ public class Principal extends javax.swing.JFrame {
                                                     Scanner s2 = new Scanner(det);
                                                     s2.useDelimiter(",");
                                                     for (int j = 0; j <= s; j++) {
-                                                        if (j == s) {
-                                                            System.out.println(igual + " " + menor + " " + mayor);
+                                                        if (j == s) {                                                            
                                                             if (igual) {
-                                                                if (cumple.equals(s2.next())) {
-                                                                    System.out.println("igual");
+                                                                if (cumple.equals(s2.next())) {                                                                    
                                                                     listamostrar.add(i);
                                                                 }
                                                             }
                                                             if (mayor) {
-                                                                if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
-                                                                    System.out.println("mayor");
+                                                                if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {                                                                    
                                                                     listamostrar.add(i);
                                                                 }
                                                             }
                                                             if (menor) {
-                                                                if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
-                                                                    System.out.println("menor");
+                                                                if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {                                                                    
                                                                     listamostrar.add(i);
                                                                 }
                                                             }
@@ -1779,24 +1769,20 @@ public class Principal extends javax.swing.JFrame {
                                                     c = i;
                                                     break;
                                                 }
-                                            }
-                                            System.out.println(c);
+                                            }                                            
                                             String[] cmp = {campo};
                                             tabla.setModel(new javax.swing.table.DefaultTableModel(
                                                     new Object[][]{},
                                                     cmp
                                             ));
                                             DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
-                                            for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                                System.out.println("entra al for");
+                                            for (int i = 0; i < ref.getDetalle().size(); i++) {                                                
                                                 int lim = 0;
                                                 Scanner sc = new Scanner(ref.getDetalle().get(i));
                                                 sc.useDelimiter(",");
-                                                while (sc.hasNext()) {
-                                                    System.out.println("entra al while");
+                                                while (sc.hasNext()) {                                                    
                                                     String next = sc.next();
-                                                    if (c == lim) {
-                                                        System.out.println("entra al if");
+                                                    if (c == lim) {                                                        
                                                         Object[] row = {next};
                                                         mod.addRow(row);
                                                         break;
