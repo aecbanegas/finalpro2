@@ -1,0 +1,8 @@
+#Encabezado
+nombre:notas
+base_de_datos:Adios
+creador:admin
+fecha_creacion:12/12/2018
+atributos:nombre,clase,calificacion
+#Detalles
+Andres,progra2,90

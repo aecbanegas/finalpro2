@@ -41,6 +41,8 @@
                               <Component id="jLabel18" max="32767" attributes="0"/>
                               <Component id="cb_guardaren" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                          <Component id="bt_diagrama" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
@@ -62,8 +64,11 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                   <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                  <Component id="cb_guardaren" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="cb_guardaren" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="bt_diagrama" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -209,6 +214,11 @@
               <Color blue="33" green="0" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Tabla:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="bt_diagrama">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Diagrama"/>
           </Properties>
         </Component>
         <Menu class="javax.swing.JMenuBar" name="jMenuBar1">

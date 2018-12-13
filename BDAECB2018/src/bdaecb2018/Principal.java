@@ -73,6 +73,7 @@ public class Principal extends javax.swing.JFrame {
         cb_guardaren = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
+        bt_diagrama = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_crear = new javax.swing.JMenuItem();
@@ -198,6 +199,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(255, 0, 51));
         jLabel20.setText("Tabla:");
 
+        bt_diagrama.setText("Diagrama");
+
         jMenu1.setText("Administracion");
 
         jmi_crear.setText("Crear Usuarios");
@@ -257,7 +260,9 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(96, 96, 96)
                         .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cb_guardaren, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cb_guardaren, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(37, 37, 37)
+                        .addComponent(bt_diagrama))
                     .addComponent(jLabel19)
                     .addComponent(jLabel20))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -275,8 +280,10 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jd_menuLayout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addComponent(jLabel18)
-                                .addGap(4, 4, 4)
-                                .addComponent(cb_guardaren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(3, 3, 3)
+                                .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cb_guardaren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bt_diagrama))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1067,101 +1074,61 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "INSERT":
-                            if (mostrar.length == 4) {
-                                if (mostrar[1].equals("INTO")) {
-                                    String nomTab = mostrar[2];
-                                    String valores = mostrar[3];
-                                    boolean exist = false;
-                                    bdatos look = null;
-                                    try {
-                                        look = (bdatos) cb_guardaren.getSelectedItem();
-                                    } catch (Exception e) {
-                                    }
-                                    if (look != null) {
-                                        for (int i = 0; i < look.getTablas().size(); i++) {
-                                            if (look.getTablas().get(i).getNombre().equals(nomTab)) {
-                                                exist = true;
-                                                break;
-                                            }
+                            if (insert) {
+                                if (mostrar.length == 4) {
+                                    if (mostrar[1].equals("INTO")) {
+                                        String nomTab = mostrar[2];
+                                        String valores = mostrar[3];
+                                        boolean exist = false;
+                                        bdatos look = null;
+                                        try {
+                                            look = (bdatos) cb_guardaren.getSelectedItem();
+                                        } catch (Exception e) {
                                         }
-                                        Scanner sc = new Scanner(valores);
-                                        sc.useDelimiter("[(]");
-                                        sc.next();
-                                        Scanner s2 = new Scanner(sc.next());
-                                        s2.useDelimiter("[)]");
-                                        String detalle = s2.next();
-                                        if (exist) {
+                                        if (look != null) {
                                             for (int i = 0; i < look.getTablas().size(); i++) {
                                                 if (look.getTablas().get(i).getNombre().equals(nomTab)) {
-                                                    look.getTablas().get(i).getDetalle().add(detalle);
+                                                    exist = true;
                                                     break;
                                                 }
                                             }
-                                            for (int i = 0; i < basesdedatos.size(); i++) {
-                                                if (basesdedatos.get(i).equals(look)) {
-                                                    basesdedatos.set(i, look);
-                                                    break;
+                                            Scanner sc = new Scanner(valores);
+                                            sc.useDelimiter("[(]");
+                                            sc.next();
+                                            Scanner s2 = new Scanner(sc.next());
+                                            s2.useDelimiter("[)]");
+                                            String detalle = s2.next();
+                                            if (exist) {
+                                                for (int i = 0; i < look.getTablas().size(); i++) {
+                                                    if (look.getTablas().get(i).getNombre().equals(nomTab)) {
+                                                        look.getTablas().get(i).getDetalle().add(detalle);
+                                                        break;
+                                                    }
                                                 }
+                                                for (int i = 0; i < basesdedatos.size(); i++) {
+                                                    if (basesdedatos.get(i).equals(look)) {
+                                                        basesdedatos.set(i, look);
+                                                        break;
+                                                    }
+                                                }
+                                                abd.setActual(basesdedatos);
+                                                abd.escribirArchivo();
+                                                abd.cargarArchivo();
+                                                process();
+                                                sql.setText("");
+                                                JOptionPane.showMessageDialog(jd_menu, "Se agrego la fila a la tabla!");
                                             }
-                                            abd.setActual(basesdedatos);
-                                            abd.escribirArchivo();
-                                            abd.cargarArchivo();
-                                            process();
-                                            sql.setText("");
-                                            JOptionPane.showMessageDialog(jd_menu, "Se agrego la fila a la tabla!");
                                         }
                                     }
                                 }
+                            } else {
+                                JOptionPane.showMessageDialog(jd_menu, "No esta autorizado a ejecutar esa instruccion");
                             }
                             break;
                         case "SELECT":
-                            if (mostrar.length == 4) {
-                                if (mostrar[1].equals("*")) {
-                                    String tab = mostrar[3];
-                                    for (int i = 0; i < basesdedatos.size(); i++) {
-                                        if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
-                                            forsql = basesdedatos.get(i);
-                                            break;
-                                        }
-                                    }
-                                    for (int i = 0; i < forsql.getTablas().size(); i++) {
-                                        if (forsql.getTablas().get(i).getNombre().equals(tab)) {
-                                            cargada = forsql.getTablas().get(i);
-                                            break;
-                                        }
-                                    }
-                                    ArrayList<String> atrib = cargada.getAtributos();
-                                    String[] titulo = new String[atrib.size()];
-                                    for (int i = 0; i < titulo.length; i++) {
-                                        titulo[i] = atrib.get(i);
-                                    }
-                                    tabla.setModel(new javax.swing.table.DefaultTableModel(
-                                            new Object[][]{},
-                                            titulo
-                                    ));
-                                    DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
-                                    ArrayList<String> detalle = cargada.getDetalle();
-                                    for (int i = 0; i < detalle.size(); i++) {
-                                        Object[] row = detalle.get(i).split(",");
-                                        tm.addRow(row);
-                                    }
-                                    tabla.setModel(tm);
-                                    JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
-                                    sql.setText("");
-                                } else {
-                                    int cont = 0;
-                                    int conp = 0;
-                                    for (int i = 0; i < mostrar[1].length(); i++) {
-                                        if (mostrar[1].charAt(i) == ',') {
-                                            cont++;
-                                        }
-                                        if (mostrar[1].charAt(i) == '.') {
-                                            conp++;
-                                        }
-                                    }
-                                    if (cont > 0) {
-                                        String c = mostrar[1];
-                                        String[] campos = c.split(",");
+                            if (select) {
+                                if (mostrar.length == 4) {
+                                    if (mostrar[1].equals("*")) {
                                         String tab = mostrar[3];
                                         for (int i = 0; i < basesdedatos.size(); i++) {
                                             if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
@@ -1175,239 +1142,39 @@ public class Principal extends javax.swing.JFrame {
                                                 break;
                                             }
                                         }
-                                        ArrayList<Integer> posiciones = new ArrayList();
-                                        for (int i = 0; i < cargada.getAtributos().size(); i++) {
-                                            for (int j = 0; j < campos.length; j++) {
-                                                if (campos[j].equals(cargada.getAtributos().get(i))) {
-                                                    posiciones.add(i);
-                                                    break;
-                                                }
-                                            }
+                                        ArrayList<String> atrib = cargada.getAtributos();
+                                        String[] titulo = new String[atrib.size()];
+                                        for (int i = 0; i < titulo.length; i++) {
+                                            titulo[i] = atrib.get(i);
                                         }
                                         tabla.setModel(new javax.swing.table.DefaultTableModel(
                                                 new Object[][]{},
-                                                campos
+                                                titulo
                                         ));
-                                        DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
-                                        for (int i = 0; i < cargada.getDetalle().size(); i++) {
-                                            ArrayList<String> fil = new ArrayList();
-                                            for (int j = 0; j < posiciones.size(); j++) {
-                                                int lim = 0;
-                                                Scanner sc = new Scanner(cargada.getDetalle().get(i));
-                                                sc.useDelimiter(",");
-                                                while (sc.hasNext()) {
-                                                    String next = sc.next();
-                                                    if (lim == posiciones.get(j)) {
-                                                        fil.add(next);
-                                                    }
-                                                }
-                                            }
-                                            Object[] row = new Object[fil.size()];
-                                            for (int j = 0; j < fil.size(); j++) {
-                                                row[j] = fil.get(j);
-                                            }
-                                            mod.addRow(row);
+                                        DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                                        ArrayList<String> detalle = cargada.getDetalle();
+                                        for (int i = 0; i < detalle.size(); i++) {
+                                            Object[] row = detalle.get(i).split(",");
+                                            tm.addRow(row);
                                         }
-                                        tabla.setModel(mod);
+                                        tabla.setModel(tm);
+                                        JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
                                         sql.setText("");
-                                        JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
-
                                     } else {
-                                        String campo = mostrar[1];
-                                        String tab = mostrar[3];
-                                        for (int i = 0; i < basesdedatos.size(); i++) {
-                                            if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
-                                                forsql = basesdedatos.get(i);
-                                                break;
+                                        int cont = 0;
+                                        int conp = 0;
+                                        for (int i = 0; i < mostrar[1].length(); i++) {
+                                            if (mostrar[1].charAt(i) == ',') {
+                                                cont++;
+                                            }
+                                            if (mostrar[1].charAt(i) == '.') {
+                                                conp++;
                                             }
                                         }
-                                        for (int i = 0; i < forsql.getTablas().size(); i++) {
-                                            if (forsql.getTablas().get(i).getNombre().equals(tab)) {
-                                                ref = forsql.getTablas().get(i);
-                                                break;
-                                            }
-                                        }
-                                        int c = 0;
-                                        for (int i = 0; i < ref.getAtributos().size(); i++) {
-                                            if (ref.getAtributos().get(i).equals(campo)) {
-                                                c = i;
-                                                break;
-                                            }
-                                        }
-                                        System.out.println(c);
-                                        String[] cmp = {campo};
-                                        tabla.setModel(new javax.swing.table.DefaultTableModel(
-                                                new Object[][]{},
-                                                cmp
-                                        ));
-                                        DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
-                                        for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                            System.out.println("entra al for");
-                                            int lim = 0;
-                                            Scanner sc = new Scanner(ref.getDetalle().get(i));
-                                            sc.useDelimiter(",");
-                                            while (sc.hasNext()) {
-                                                System.out.println("entra al while");
-                                                String next = sc.next();
-                                                if (c == lim) {
-                                                    System.out.println("entra al if");
-                                                    Object[] row = {next};
-                                                    mod.addRow(row);
-                                                    break;
-                                                }
-                                                lim++;
-                                            }
-                                        }
-                                        tabla.setModel(mod);
-                                        sql.setText(tab);
-                                        JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
-                                    }
-                                }
-                            }
-                            if (mostrar.length == 6) {
-                                if (mostrar[1].equals("*")) {
-                                    String tab = mostrar[3];
-                                    String cond = mostrar[5];
-                                    Scanner t = new Scanner(cond);
-                                    t.useDelimiter("[=]|[<]|[>]");
-                                    boolean mayor = false, menor = false, igual = false;
-                                    String campo = t.next();
-                                    String cumple = t.next();
-                                    int camp = 0;
-                                    for (int i = 0; i < cond.length(); i++) {
-                                        switch (cond.charAt(i)) {
-                                            case '<':
-                                                menor = true;
-                                                break;
-                                            case '>':
-                                                mayor = true;
-                                                break;
-                                            case '=':
-                                                igual = true;
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    }
-                                    for (int i = 0; i < basesdedatos.size(); i++) {
-                                        if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
-                                            forsql = basesdedatos.get(i);
-                                            break;
-                                        }
-                                    }
-                                    for (int i = 0; i < forsql.getTablas().size(); i++) {
-                                        if (forsql.getTablas().get(i).getNombre().equals(tab)) {
-                                            cargada = forsql.getTablas().get(i);
-                                            break;
-                                        }
-                                    }
-                                    for (int i = 0; i < cargada.getAtributos().size(); i++) {
-                                        if (campo.equals(cargada.getAtributos().get(i))) {
-                                            camp = i;
-                                            break;
-                                        }
-                                    }
-                                    int cont = 0;
-                                    for (int i = 0; i < cargada.getAtributos().size(); i++) {
-                                        if (cargada.getAtributos().get(i).equals(campo)) {
-                                            cont = i;
-                                        }
-                                    }
-                                    ArrayList<Integer> listamostrar = new ArrayList();
-                                    for (int i = 0; i < cargada.getDetalle().size(); i++) {
-                                        String det = cargada.getDetalle().get(i);
-                                        Scanner s2 = new Scanner(det);
-                                        s2.useDelimiter(",");
-                                        for (int j = 0; j <= cont; j++) {
-                                            if (j == cont) {
-                                                if (igual) {
-                                                    if (cumple.equals(s2.next())) {
-                                                        listamostrar.add(i);
-                                                    }
-                                                }
-                                                if (mayor) {
-                                                    if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
-                                                        listamostrar.add(i);
-                                                    }
-                                                }
-                                                if (menor) {
-                                                    if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
-                                                        listamostrar.add(i);
-                                                    }
-                                                }
-                                            } else {
-                                                s2.next();
-                                            }
-                                        }
-                                    }
-                                    ArrayList<String> atrib = cargada.getAtributos();
-                                    String[] titulo = new String[atrib.size()];
-                                    for (int i = 0; i < titulo.length; i++) {
-                                        titulo[i] = atrib.get(i);
-                                    }
-                                    tabla.setModel(new javax.swing.table.DefaultTableModel(
-                                            new Object[][]{},
-                                            titulo
-                                    ));
-                                    DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
-                                    for (int i = 0; i < listamostrar.size(); i++) {
-                                        String parse = cargada.getDetalle().get(listamostrar.get(i));
-                                        Scanner y = new Scanner(parse);
-                                        y.useDelimiter(",");
-                                        ArrayList<String> add = new ArrayList();
-                                        while (y.hasNext()) {
-                                            String next = y.next();
-                                            add.add(next);
-                                        }
-                                        Object[] Row = new Object[add.size()];
-                                        for (int j = 0; j < add.size(); j++) {
-                                            Row[j] = add.get(j);
-                                        }
-                                        tm.addRow(Row);
-                                    }
-                                    tabla.setModel(tm);
-                                    JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
-                                    sql.setText("");
-                                } else {
-                                    int cont = 0;
-                                    int conp = 0;
-                                    for (int i = 0; i < mostrar[1].length(); i++) {
-                                        if (mostrar[1].charAt(i) == ',') {
-                                            cont++;
-                                        }
-                                        if (mostrar[1].charAt(i) == '.') {
-                                            conp++;
-                                        }
-                                    }
-                                    if (cont > 0) {
-                                        if (conp > 0) {
-
-                                        } else {
+                                        if (cont > 0) {
                                             String c = mostrar[1];
                                             String[] campos = c.split(",");
                                             String tab = mostrar[3];
-                                            String cond = mostrar[5];
-                                            Scanner t = new Scanner(cond);
-                                            t.useDelimiter("[=]|[<]|[>]");
-                                            boolean mayor = false, menor = false, igual = false;
-                                            String campo = t.next();
-                                            String cumple = t.next();
-                                            int camp = 0;
-                                            for (int i = 0; i < cond.length(); i++) {
-                                                switch (cond.charAt(i)) {
-                                                    case '<':
-                                                        menor = true;
-                                                        break;
-                                                    case '>':
-                                                        mayor = true;
-                                                        break;
-                                                    case '=':
-                                                        igual = true;
-                                                        break;
-                                                    default:
-                                                        break;
-                                                }
-                                            }
                                             for (int i = 0; i < basesdedatos.size(); i++) {
                                                 if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
                                                     forsql = basesdedatos.get(i);
@@ -1420,43 +1187,6 @@ public class Principal extends javax.swing.JFrame {
                                                     break;
                                                 }
                                             }
-                                            int s = 0;
-                                            for (int i = 0; i < cargada.getAtributos().size(); i++) {
-                                                if (cargada.getAtributos().get(i).equals(campo)) {
-                                                    s = i;
-                                                }
-                                            }
-                                            ArrayList<Integer> listamostrar = new ArrayList();
-                                            for (int i = 0; i < cargada.getDetalle().size(); i++) {
-                                                String det = cargada.getDetalle().get(i);
-                                                Scanner s2 = new Scanner(det);
-                                                s2.useDelimiter(",");
-                                                for (int j = 0; j <= s; j++) {
-                                                    if (j == s) {
-                                                        System.out.println(igual + " " + menor + " " + mayor);
-                                                        if (igual) {
-                                                            if (cumple.equals(s2.next())) {
-                                                                System.out.println("igual");
-                                                                listamostrar.add(i);
-                                                            }
-                                                        }
-                                                        if (mayor) {
-                                                            if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
-                                                                System.out.println("mayor");
-                                                                listamostrar.add(i);
-                                                            }
-                                                        }
-                                                        if (menor) {
-                                                            if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
-                                                                System.out.println("menor");
-                                                                listamostrar.add(i);
-                                                            }
-                                                        }
-                                                    } else {
-                                                        s2.next();
-                                                    }
-                                                }
-                                            }
                                             ArrayList<Integer> posiciones = new ArrayList();
                                             for (int i = 0; i < cargada.getAtributos().size(); i++) {
                                                 for (int j = 0; j < campos.length; j++) {
@@ -1466,42 +1196,111 @@ public class Principal extends javax.swing.JFrame {
                                                     }
                                                 }
                                             }
-                                            for (int i = 0; i < campos.length; i++) {
-                                                System.out.println(campos[i]);
-                                            }
-                                            System.out.println(listamostrar);
                                             tabla.setModel(new javax.swing.table.DefaultTableModel(
                                                     new Object[][]{},
                                                     campos
                                             ));
-                                            DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
-                                            for (int i = 0; i < listamostrar.size(); i++) {
+                                            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+                                            for (int i = 0; i < cargada.getDetalle().size(); i++) {
                                                 ArrayList<String> fil = new ArrayList();
                                                 for (int j = 0; j < posiciones.size(); j++) {
                                                     int lim = 0;
-                                                    Scanner sc = new Scanner(cargada.getDetalle().get(listamostrar.get(i)));
+                                                    Scanner sc = new Scanner(cargada.getDetalle().get(i));
                                                     sc.useDelimiter(",");
                                                     while (sc.hasNext()) {
                                                         String next = sc.next();
                                                         if (lim == posiciones.get(j)) {
                                                             fil.add(next);
                                                         }
-                                                        lim++;
                                                     }
                                                 }
                                                 Object[] row = new Object[fil.size()];
                                                 for (int j = 0; j < fil.size(); j++) {
                                                     row[j] = fil.get(j);
                                                 }
-                                                tm.addRow(row);
+                                                mod.addRow(row);
                                             }
-                                            tabla.setModel(tm);
+                                            tabla.setModel(mod);
                                             sql.setText("");
                                             JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+
+                                        } else {
+                                            String campo = mostrar[1];
+                                            String tab = mostrar[3];
+                                            for (int i = 0; i < basesdedatos.size(); i++) {
+                                                if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                                    forsql = basesdedatos.get(i);
+                                                    break;
+                                                }
+                                            }
+                                            for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                                if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                                    ref = forsql.getTablas().get(i);
+                                                    break;
+                                                }
+                                            }
+                                            int c = 0;
+                                            for (int i = 0; i < ref.getAtributos().size(); i++) {
+                                                if (ref.getAtributos().get(i).equals(campo)) {
+                                                    c = i;
+                                                    break;
+                                                }
+                                            }
+                                            System.out.println(c);
+                                            String[] cmp = {campo};
+                                            tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                    new Object[][]{},
+                                                    cmp
+                                            ));
+                                            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+                                            for (int i = 0; i < ref.getDetalle().size(); i++) {
+                                                System.out.println("entra al for");
+                                                int lim = 0;
+                                                Scanner sc = new Scanner(ref.getDetalle().get(i));
+                                                sc.useDelimiter(",");
+                                                while (sc.hasNext()) {
+                                                    System.out.println("entra al while");
+                                                    String next = sc.next();
+                                                    if (c == lim) {
+                                                        System.out.println("entra al if");
+                                                        Object[] row = {next};
+                                                        mod.addRow(row);
+                                                        break;
+                                                    }
+                                                    lim++;
+                                                }
+                                            }
+                                            tabla.setModel(mod);
+                                            sql.setText(tab);
+                                            JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
                                         }
-                                    } else {
-                                        String campo = mostrar[1];
+                                    }
+                                }
+                                if (mostrar.length == 6) {
+                                    if (mostrar[1].equals("*")) {
                                         String tab = mostrar[3];
+                                        String cond = mostrar[5];
+                                        Scanner t = new Scanner(cond);
+                                        t.useDelimiter("[=]|[<]|[>]");
+                                        boolean mayor = false, menor = false, igual = false;
+                                        String campo = t.next();
+                                        String cumple = t.next();
+                                        int camp = 0;
+                                        for (int i = 0; i < cond.length(); i++) {
+                                            switch (cond.charAt(i)) {
+                                                case '<':
+                                                    menor = true;
+                                                    break;
+                                                case '>':
+                                                    mayor = true;
+                                                    break;
+                                                case '=':
+                                                    igual = true;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
                                         for (int i = 0; i < basesdedatos.size(); i++) {
                                             if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
                                                 forsql = basesdedatos.get(i);
@@ -1510,46 +1309,390 @@ public class Principal extends javax.swing.JFrame {
                                         }
                                         for (int i = 0; i < forsql.getTablas().size(); i++) {
                                             if (forsql.getTablas().get(i).getNombre().equals(tab)) {
-                                                ref = forsql.getTablas().get(i);
+                                                cargada = forsql.getTablas().get(i);
                                                 break;
                                             }
                                         }
-                                        int c = 0;
-                                        for (int i = 0; i < ref.getAtributos().size(); i++) {
-                                            if (ref.getAtributos().get(i).equals(campo)) {
-                                                c = i;
+                                        for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                            if (campo.equals(cargada.getAtributos().get(i))) {
+                                                camp = i;
                                                 break;
                                             }
                                         }
-                                        System.out.println(c);
-                                        String[] cmp = {campo};
+                                        int cont = 0;
+                                        for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                            if (cargada.getAtributos().get(i).equals(campo)) {
+                                                cont = i;
+                                            }
+                                        }
+                                        ArrayList<Integer> listamostrar = new ArrayList();
+                                        for (int i = 0; i < cargada.getDetalle().size(); i++) {
+                                            String det = cargada.getDetalle().get(i);
+                                            Scanner s2 = new Scanner(det);
+                                            s2.useDelimiter(",");
+                                            for (int j = 0; j <= cont; j++) {
+                                                if (j == cont) {
+                                                    if (igual) {
+                                                        if (cumple.equals(s2.next())) {
+                                                            listamostrar.add(i);
+                                                        }
+                                                    }
+                                                    if (mayor) {
+                                                        if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
+                                                            listamostrar.add(i);
+                                                        }
+                                                    }
+                                                    if (menor) {
+                                                        if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
+                                                            listamostrar.add(i);
+                                                        }
+                                                    }
+                                                } else {
+                                                    s2.next();
+                                                }
+                                            }
+                                        }
+                                        ArrayList<String> atrib = cargada.getAtributos();
+                                        String[] titulo = new String[atrib.size()];
+                                        for (int i = 0; i < titulo.length; i++) {
+                                            titulo[i] = atrib.get(i);
+                                        }
                                         tabla.setModel(new javax.swing.table.DefaultTableModel(
                                                 new Object[][]{},
-                                                cmp
+                                                titulo
                                         ));
-                                        DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
-                                        for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                            System.out.println("entra al for");
-                                            int lim = 0;
-                                            Scanner sc = new Scanner(ref.getDetalle().get(i));
-                                            sc.useDelimiter(",");
-                                            while (sc.hasNext()) {
-                                                System.out.println("entra al while");
-                                                String next = sc.next();
-                                                if (c == lim) {
-                                                    System.out.println("entra al if");
-                                                    Object[] row = {next};
-                                                    mod.addRow(row);
-                                                    break;
-                                                }
-                                                lim++;
+                                        DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                                        for (int i = 0; i < listamostrar.size(); i++) {
+                                            String parse = cargada.getDetalle().get(listamostrar.get(i));
+                                            Scanner y = new Scanner(parse);
+                                            y.useDelimiter(",");
+                                            ArrayList<String> add = new ArrayList();
+                                            while (y.hasNext()) {
+                                                String next = y.next();
+                                                add.add(next);
+                                            }
+                                            Object[] Row = new Object[add.size()];
+                                            for (int j = 0; j < add.size(); j++) {
+                                                Row[j] = add.get(j);
+                                            }
+                                            tm.addRow(Row);
+                                        }
+                                        tabla.setModel(tm);
+                                        JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
+                                        sql.setText("");
+                                    } else {
+                                        int cont = 0;
+                                        int conp = 0;
+                                        for (int i = 0; i < mostrar[1].length(); i++) {
+                                            if (mostrar[1].charAt(i) == ',') {
+                                                cont++;
+                                            }
+                                            if (mostrar[1].charAt(i) == '.') {
+                                                conp++;
                                             }
                                         }
-                                        tabla.setModel(mod);
-                                        sql.setText(tab);
-                                        JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+                                        if (cont > 0) {
+                                            if (conp > 0) {
+                                                ArrayList<String> camposselect = new ArrayList();
+                                                ArrayList<String> buscarcampos = new ArrayList();
+                                                ArrayList<String> tabselect = new ArrayList();
+                                                String cond = mostrar[5];
+                                                Scanner tf = new Scanner(cond);
+                                                tf.useDelimiter("[=]|[<]|[>]");
+                                                boolean mayor = false, menor = false, igual = false;
+                                                String campo = tf.next();
+                                                Scanner ca = new Scanner(campo);
+                                                ca.useDelimiter("[.]");
+                                                String tabla1 = ca.next();
+                                                String campo1 = ca.next();
+                                                String cumple = tf.next();
+                                                ca = new Scanner(cumple);
+                                                ca.useDelimiter("[.]");
+                                                String tabla2 = ca.next();
+                                                String campo2 = ca.next();
+                                                for (int i = 0; i < cond.length(); i++) {
+                                                    switch (cond.charAt(i)) {
+                                                        case '<':
+                                                            menor = true;
+                                                            break;
+                                                        case '>':
+                                                            mayor = true;
+                                                            break;
+                                                        case '=':
+                                                            igual = true;
+                                                            break;
+                                                        default:
+                                                            break;
+                                                    }
+                                                }
+                                                String t = mostrar[3];
+                                                Scanner ft = new Scanner(t);
+                                                ft.useDelimiter(",");
+                                                while (ft.hasNext()) {
+                                                    String next = ft.next();
+                                                    tabselect.add(next);
+                                                }
+                                                String cs = mostrar[1];
+                                                Scanner css = new Scanner(cs);
+                                                css.useDelimiter(",");
+                                                while (css.hasNext()) {
+                                                    String next = css.next();
+                                                    System.out.println(next);
+                                                    Scanner re = new Scanner(next);
+                                                    re.useDelimiter("[.]");
+                                                    String next1 = re.next();
+                                                    buscarcampos.add(next1);
+                                                    camposselect.add(re.next());
+                                                }
+                                                tablas = new ArrayList();
+                                                for (int i = 0; i < basesdedatos.size(); i++) {
+                                                    if (basesdedatos.get(i).getNombre().equals(cb_guardaren.getSelectedItem().toString())) {
+                                                        forsql = basesdedatos.get(i);
+                                                        break;
+                                                    }
+                                                }
+                                                for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                                    for (int j = 0; j < tabselect.size(); j++) {
+                                                        if (tabselect.get(j).equals(forsql.getTablas().get(i).getNombre())) {
+                                                            if (tablas.isEmpty()) {
+                                                                tablas.add(forsql.getTablas().get(i));
+                                                            } else {
+                                                                boolean si = true;
+                                                                for (int k = 0; k < tablas.size(); k++) {
+                                                                    if (tablas.get(k).getNombre().equals(tabselect.get(j))) {
+                                                                        si = false;
+                                                                    }
+                                                                }
+                                                                if (si) {
+                                                                    tablas.add(forsql.getTablas().get(i));
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                int lugar1 = 0, lugar2 = 0;
+                                                for (int i = 0; i < tablas.size(); i++) {
+                                                    if (tablas.get(i).getNombre().equals(tabla1)) {
+                                                        for (int j = 0; j < tablas.get(i).getAtributos().size(); j++) {
+                                                            if (tablas.get(i).getAtributos().get(j).equals(campo1)) {
+                                                                lugar1 = j;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (tablas.get(i).getNombre().equals(tabla2)) {
+                                                        for (int j = 0; j < tablas.get(i).getAtributos().size(); j++) {
+                                                            if (tablas.get(i).getAtributos().get(j).equals(campo2)) {
+                                                                lugar2 = j;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                ArrayList<Integer> pos = new ArrayList();
+                                                Object s1, s2;
+                                                for (int i = 0; i < tablas.size(); i++) {
+                                                    if (tablas.get(i).getNombre().equals(tabla1)) {
+                                                        for (int j = 0; j < tablas.get(i).getDetalle().size(); j++) {
+                                                            int lim = 0;
+                                                            String gett = tablas.get(i).getDetalle().get(j);
+                                                            Scanner ss1 = new Scanner(gett);
+                                                            ss1.useDelimiter(",");
+                                                            while (ss1.hasNext()) {
+                                                                String next = ss1.next();
+                                                                if (lim == lugar1) {
+                                                                    s1 = next;
+                                                                }
+                                                                lim++;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (tablas.get(i).getNombre().equals(tabla2)) {
+                                                        for (int j = 0; j < tablas.get(i).getDetalle().size(); j++) {
+                                                            int lim = 0;
+                                                            String gett = tablas.get(i).getDetalle().get(j);
+                                                            Scanner ss1 = new Scanner(gett);
+                                                            ss1.useDelimiter(",");
+                                                            while (ss1.hasNext()) {
+                                                                String next = ss1.next();
+                                                                if (lim == lugar2) {
+                                                                    s2 = next;
+                                                                }
+                                                                lim++;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                            } else {
+                                                String c = mostrar[1];
+                                                String[] campos = c.split(",");
+                                                String tab = mostrar[3];
+                                                String cond = mostrar[5];
+                                                Scanner t = new Scanner(cond);
+                                                t.useDelimiter("[=]|[<]|[>]");
+                                                boolean mayor = false, menor = false, igual = false;
+                                                String campo = t.next();
+                                                String cumple = t.next();
+                                                int camp = 0;
+                                                for (int i = 0; i < cond.length(); i++) {
+                                                    switch (cond.charAt(i)) {
+                                                        case '<':
+                                                            menor = true;
+                                                            break;
+                                                        case '>':
+                                                            mayor = true;
+                                                            break;
+                                                        case '=':
+                                                            igual = true;
+                                                            break;
+                                                        default:
+                                                            break;
+                                                    }
+                                                }
+                                                for (int i = 0; i < basesdedatos.size(); i++) {
+                                                    if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                                        forsql = basesdedatos.get(i);
+                                                        break;
+                                                    }
+                                                }
+                                                for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                                    if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                                        cargada = forsql.getTablas().get(i);
+                                                        break;
+                                                    }
+                                                }
+                                                int s = 0;
+                                                for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                                    if (cargada.getAtributos().get(i).equals(campo)) {
+                                                        s = i;
+                                                    }
+                                                }
+                                                ArrayList<Integer> listamostrar = new ArrayList();
+                                                for (int i = 0; i < cargada.getDetalle().size(); i++) {
+                                                    String det = cargada.getDetalle().get(i);
+                                                    Scanner s2 = new Scanner(det);
+                                                    s2.useDelimiter(",");
+                                                    for (int j = 0; j <= s; j++) {
+                                                        if (j == s) {
+                                                            System.out.println(igual + " " + menor + " " + mayor);
+                                                            if (igual) {
+                                                                if (cumple.equals(s2.next())) {
+                                                                    System.out.println("igual");
+                                                                    listamostrar.add(i);
+                                                                }
+                                                            }
+                                                            if (mayor) {
+                                                                if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
+                                                                    System.out.println("mayor");
+                                                                    listamostrar.add(i);
+                                                                }
+                                                            }
+                                                            if (menor) {
+                                                                if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
+                                                                    System.out.println("menor");
+                                                                    listamostrar.add(i);
+                                                                }
+                                                            }
+                                                        } else {
+                                                            s2.next();
+                                                        }
+                                                    }
+                                                }
+                                                ArrayList<Integer> posiciones = new ArrayList();
+                                                for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                                    for (int j = 0; j < campos.length; j++) {
+                                                        if (campos[j].equals(cargada.getAtributos().get(i))) {
+                                                            posiciones.add(i);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                for (int i = 0; i < campos.length; i++) {
+                                                    System.out.println(campos[i]);
+                                                }
+                                                System.out.println(listamostrar);
+                                                tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                        new Object[][]{},
+                                                        campos
+                                                ));
+                                                DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                                                for (int i = 0; i < listamostrar.size(); i++) {
+                                                    ArrayList<String> fil = new ArrayList();
+                                                    for (int j = 0; j < posiciones.size(); j++) {
+                                                        int lim = 0;
+                                                        Scanner sc = new Scanner(cargada.getDetalle().get(listamostrar.get(i)));
+                                                        sc.useDelimiter(",");
+                                                        while (sc.hasNext()) {
+                                                            String next = sc.next();
+                                                            if (lim == posiciones.get(j)) {
+                                                                fil.add(next);
+                                                            }
+                                                            lim++;
+                                                        }
+                                                    }
+                                                    Object[] row = new Object[fil.size()];
+                                                    for (int j = 0; j < fil.size(); j++) {
+                                                        row[j] = fil.get(j);
+                                                    }
+                                                    tm.addRow(row);
+                                                }
+                                                tabla.setModel(tm);
+                                                sql.setText("");
+                                                JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+                                            }
+                                        } else {
+                                            String campo = mostrar[1];
+                                            String tab = mostrar[3];
+                                            for (int i = 0; i < basesdedatos.size(); i++) {
+                                                if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                                    forsql = basesdedatos.get(i);
+                                                    break;
+                                                }
+                                            }
+                                            for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                                if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                                    ref = forsql.getTablas().get(i);
+                                                    break;
+                                                }
+                                            }
+                                            int c = 0;
+                                            for (int i = 0; i < ref.getAtributos().size(); i++) {
+                                                if (ref.getAtributos().get(i).equals(campo)) {
+                                                    c = i;
+                                                    break;
+                                                }
+                                            }
+                                            System.out.println(c);
+                                            String[] cmp = {campo};
+                                            tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                    new Object[][]{},
+                                                    cmp
+                                            ));
+                                            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+                                            for (int i = 0; i < ref.getDetalle().size(); i++) {
+                                                System.out.println("entra al for");
+                                                int lim = 0;
+                                                Scanner sc = new Scanner(ref.getDetalle().get(i));
+                                                sc.useDelimiter(",");
+                                                while (sc.hasNext()) {
+                                                    System.out.println("entra al while");
+                                                    String next = sc.next();
+                                                    if (c == lim) {
+                                                        System.out.println("entra al if");
+                                                        Object[] row = {next};
+                                                        mod.addRow(row);
+                                                        break;
+                                                    }
+                                                    lim++;
+                                                }
+                                            }
+                                            tabla.setModel(mod);
+                                            sql.setText(tab);
+                                            JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+                                        }
                                     }
                                 }
+                            } else {
+                                JOptionPane.showMessageDialog(jd_menu, "No esta autorizado a ejecutar esa instruccion");
                             }
                             break;
                         case "UPDATE":
@@ -1663,82 +1806,87 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "DELETE":
-                            if (mostrar.length == 5) {
-                                for (int i = 0; i < basesdedatos.size(); i++) {
-                                    if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
-                                        forsql = basesdedatos.get(i);
-                                        break;
-                                    }
-                                }
-                                String nomTab = mostrar[2];
-                                String condicion = mostrar[4];
-                                boolean mayor = false, menor = false, igual = false;
-                                for (int i = 0; i < condicion.length(); i++) {
-                                    if (condicion.charAt(i) == '<') {
-                                        menor = true;
-                                    } else if (condicion.charAt(i) == '>') {
-                                        mayor = true;
-                                    } else if (condicion.charAt(i) == '=') {
-                                        igual = true;
-                                    }
-                                }
-                                Scanner sc = new Scanner(condicion);
-                                sc.useDelimiter("[=]|[>]|[<]");
-                                String campo = sc.next();
-                                String cumple = sc.next();
-                                for (int i = 0; i < forsql.getTablas().size(); i++) {
-                                    if (nomTab.equals(forsql.getTablas().get(i).getNombre())) {
-                                        ref = forsql.getTablas().get(i);
-                                        break;
-                                    }
-                                }
-                                int cont = 0;
-                                for (int i = 0; i < ref.getAtributos().size(); i++) {
-                                    if (ref.getAtributos().get(i).equals(campo)) {
-                                        cont = i;
-                                    }
-                                }
-                                ArrayList<Integer> listaparaborrar = new ArrayList();
-                                for (int i = 0; i < ref.getDetalle().size(); i++) {
-                                    String det = ref.getDetalle().get(i);
-                                    Scanner s2 = new Scanner(det);
-                                    s2.useDelimiter(",");
-                                    for (int j = 0; j <= cont; j++) {
-                                        if (j == cont) {
-                                            if (igual) {
-                                                if (cumple.equals(s2.next())) {
-                                                    listaparaborrar.add(i);
-                                                }
-                                            }
-                                            if (mayor) {
-                                                if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
-                                                    listaparaborrar.add(i);
-                                                }
-                                            }
-                                            if (menor) {
-                                                if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
-                                                    listaparaborrar.add(i);
-                                                }
-                                            }
-                                        } else {
-                                            s2.next();
+                            if (delete) {
+                                if (mostrar.length == 5) {
+                                    for (int i = 0; i < basesdedatos.size(); i++) {
+                                        if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                            forsql = basesdedatos.get(i);
+                                            break;
                                         }
                                     }
-                                }
-                                for (int i = 0; i < listaparaborrar.size(); i++) {
-                                    int num = listaparaborrar.get(i);
-                                    ref.getDetalle().remove(num);
-                                    for (int j = 0; j < listaparaborrar.size(); j++) {
-                                        listaparaborrar.set(j, (listaparaborrar.get(j) - 1));
+                                    String nomTab = mostrar[2];
+                                    String condicion = mostrar[4];
+                                    boolean mayor = false, menor = false, igual = false;
+                                    for (int i = 0; i < condicion.length(); i++) {
+                                        if (condicion.charAt(i) == '<') {
+                                            menor = true;
+                                        } else if (condicion.charAt(i) == '>') {
+                                            mayor = true;
+                                        } else if (condicion.charAt(i) == '=') {
+                                            igual = true;
+                                        }
                                     }
+                                    Scanner sc = new Scanner(condicion);
+                                    sc.useDelimiter("[=]|[>]|[<]");
+                                    String campo = sc.next();
+                                    String cumple = sc.next();
+                                    for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                        if (nomTab.equals(forsql.getTablas().get(i).getNombre())) {
+                                            ref = forsql.getTablas().get(i);
+                                            break;
+                                        }
+                                    }
+                                    int cont = 0;
+                                    for (int i = 0; i < ref.getAtributos().size(); i++) {
+                                        if (ref.getAtributos().get(i).equals(campo)) {
+                                            cont = i;
+                                        }
+                                    }
+                                    ArrayList<Integer> listaparaborrar = new ArrayList();
+                                    for (int i = 0; i < ref.getDetalle().size(); i++) {
+                                        String det = ref.getDetalle().get(i);
+                                        Scanner s2 = new Scanner(det);
+                                        s2.useDelimiter(",");
+                                        for (int j = 0; j <= cont; j++) {
+                                            if (j == cont) {
+                                                if (igual) {
+                                                    if (cumple.equals(s2.next())) {
+                                                        listaparaborrar.add(i);
+                                                    }
+                                                }
+                                                if (mayor) {
+                                                    if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
+                                                        listaparaborrar.add(i);
+                                                    }
+                                                }
+                                                if (menor) {
+                                                    if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
+                                                        listaparaborrar.add(i);
+                                                    }
+                                                }
+                                            } else {
+                                                s2.next();
+                                            }
+                                        }
+                                    }
+                                    for (int i = 0; i < listaparaborrar.size(); i++) {
+                                        int num = listaparaborrar.get(i);
+                                        ref.getDetalle().remove(num);
+                                        for (int j = 0; j < listaparaborrar.size(); j++) {
+                                            listaparaborrar.set(j, (listaparaborrar.get(j) - 1));
+                                        }
+                                    }
+                                    abd.setActual(basesdedatos);
+                                    abd.escribirArchivo();
+                                    abd.cargarArchivo();
+                                    process();
+                                    JOptionPane.showMessageDialog(jd_menu, "Se ejecuto la accion correctamente!");
+                                    sql.setText("");
                                 }
-                                abd.setActual(basesdedatos);
-                                abd.escribirArchivo();
-                                abd.cargarArchivo();
-                                process();
-                                JOptionPane.showMessageDialog(jd_menu, "Se ejecuto la accion correctamente!");
-                                sql.setText("");
+                            } else {
+                                JOptionPane.showMessageDialog(jd_menu, "No esta autorizado a ejecutar esa instruccion");
                             }
+
                             break;
                         case "TRUNCATE":
                             if (mostrar.length == 3) {
@@ -1975,6 +2123,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_agregarbd;
     private javax.swing.JButton bt_crearbd;
+    private javax.swing.JButton bt_diagrama;
     private javax.swing.JButton bt_eliminardb;
     private javax.swing.JButton cargarbd;
     private javax.swing.JComboBox<String> cb_guardaren;

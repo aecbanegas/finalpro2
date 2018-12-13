@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author MBanegas
  */
 public class Script {
-    ArrayList<String>sqlused;
+    ArrayList<String>sqlused=new ArrayList();
 
     public Script() {
     }
