@@ -1,0 +1,7 @@
+#Encabezado
+nombre:religion
+base_de_datos:Adios
+creador:admin
+fecha_creacion:13/02/5818
+atributos:nom,region
+#Detalles

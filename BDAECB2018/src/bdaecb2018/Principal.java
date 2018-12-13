@@ -899,6 +899,11 @@ public class Principal extends javax.swing.JFrame {
                                         if (flag) {
                                             forsql = new bdatos(mostrar[2]);
                                             forsql.getColaboradores().add(usuarioact);
+                                            ArrayList<String> script = new ArrayList();                                            
+                                            script.add(sql.getText());
+                                            Script en = new Script();
+                                            en.setSqlused(script);
+                                            forsql.setUsado(en);
                                             abd.getActual().add(forsql);
                                             abd.escribirArchivo();
                                             abd.cargarArchivo();
@@ -944,6 +949,14 @@ public class Principal extends javax.swing.JFrame {
                                             Tablas parc = new Tablas(nombre, usuarioact.getUsuario(), fecha, forsql.getNombre());
                                             parc.setAtributos(Atributos);
                                             forsql.getTablas().add(parc);
+                                            ArrayList<String> script = new ArrayList();
+                                            for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                script.add(forsql.getUsado().getSqlused().get(i));
+                                            }
+                                            script.add(sql.getText());
+                                            Script en = new Script();
+                                            en.setSqlused(script);
+                                            forsql.setUsado(en);
                                             abd.setActual(basesdedatos);
                                             abd.escribirArchivo();
                                             abd.cargarArchivo();
@@ -1005,6 +1018,14 @@ public class Principal extends javax.swing.JFrame {
                                             }
                                         }
                                         if (flag) {
+                                            ArrayList<String> script = new ArrayList();
+                                            for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                script.add(forsql.getUsado().getSqlused().get(i));
+                                            }
+                                            script.add(sql.getText());
+                                            Script en = new Script();
+                                            en.setSqlused(script);
+                                            forsql.setUsado(en);
                                             abd.setActual(basesdedatos);
                                             abd.escribirArchivo();
                                             abd.cargarArchivo();
@@ -1056,6 +1077,14 @@ public class Principal extends javax.swing.JFrame {
                                                     }
                                                 }
                                                 forsql.getColaboradores().add(usuarioaccess);
+                                                ArrayList<String> script = new ArrayList();
+                                                for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                    script.add(forsql.getUsado().getSqlused().get(i));
+                                                }
+                                                script.add(sql.getText());
+                                                Script en = new Script();
+                                                en.setSqlused(script);
+                                                forsql.setUsado(en);
                                                 abd.setActual(basesdedatos);
                                                 abd.escribirArchivo();
                                                 abd.cargarArchivo();
@@ -1105,6 +1134,14 @@ public class Principal extends javax.swing.JFrame {
                                                         break;
                                                     }
                                                 }
+                                                ArrayList<String> script = new ArrayList();
+                                                for (int i = 0; i < look.getUsado().getSqlused().size(); i++) {
+                                                    script.add(look.getUsado().getSqlused().get(i));
+                                                }
+                                                script.add(sql.getText());
+                                                Script en = new Script();
+                                                en.setSqlused(script);
+                                                look.setUsado(en);
                                                 for (int i = 0; i < basesdedatos.size(); i++) {
                                                     if (basesdedatos.get(i).equals(look)) {
                                                         basesdedatos.set(i, look);
@@ -1158,6 +1195,18 @@ public class Principal extends javax.swing.JFrame {
                                             tm.addRow(row);
                                         }
                                         tabla.setModel(tm);
+                                        ArrayList<String> script = new ArrayList();
+                                        for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                            script.add(forsql.getUsado().getSqlused().get(i));
+                                        }
+                                        script.add(sql.getText());
+                                        Script en = new Script();
+                                        en.setSqlused(script);
+                                        forsql.setUsado(en);
+                                        abd.setActual(basesdedatos);
+                                        abd.escribirArchivo();
+                                        abd.cargarArchivo();
+                                        process();
                                         JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
                                         sql.setText("");
                                     } else {
@@ -1221,6 +1270,18 @@ public class Principal extends javax.swing.JFrame {
                                                 mod.addRow(row);
                                             }
                                             tabla.setModel(mod);
+                                            ArrayList<String> script = new ArrayList();
+                                            for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                script.add(forsql.getUsado().getSqlused().get(i));
+                                            }
+                                            script.add(sql.getText());
+                                            Script en = new Script();
+                                            en.setSqlused(script);
+                                            forsql.setUsado(en);
+                                            abd.setActual(basesdedatos);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            process();
                                             sql.setText("");
                                             JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
 
@@ -1271,6 +1332,18 @@ public class Principal extends javax.swing.JFrame {
                                                 }
                                             }
                                             tabla.setModel(mod);
+                                            ArrayList<String> script = new ArrayList();
+                                            for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                script.add(forsql.getUsado().getSqlused().get(i));
+                                            }
+                                            script.add(sql.getText());
+                                            Script en = new Script();
+                                            en.setSqlused(script);
+                                            forsql.setUsado(en);
+                                            abd.setActual(basesdedatos);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            process();
                                             sql.setText(tab);
                                             JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
                                         }
@@ -1378,6 +1451,18 @@ public class Principal extends javax.swing.JFrame {
                                             tm.addRow(Row);
                                         }
                                         tabla.setModel(tm);
+                                        ArrayList<String> script = new ArrayList();
+                                        for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                            script.add(forsql.getUsado().getSqlused().get(i));
+                                        }
+                                        script.add(sql.getText());
+                                        Script en = new Script();
+                                        en.setSqlused(script);
+                                        forsql.setUsado(en);
+                                        abd.setActual(basesdedatos);
+                                        abd.escribirArchivo();
+                                        abd.cargarArchivo();
+                                        process();
                                         JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
                                         sql.setText("");
                                     } else {
@@ -1488,7 +1573,7 @@ public class Principal extends javax.swing.JFrame {
                                                     }
                                                 }
                                                 ArrayList<Integer> pos = new ArrayList();
-                                                Object s1=null, s2=null;
+                                                Object s1 = null, s2 = null;
                                                 for (int i = 0; i < tablas.size(); i++) {
                                                     if (tablas.get(i).getNombre().equals(tabla1)) {
                                                         for (int j = 0; j < tablas.get(i).getDetalle().size(); j++) {
@@ -1536,6 +1621,18 @@ public class Principal extends javax.swing.JFrame {
                                                         new Object[][]{},
                                                         campos
                                                 ));
+                                                ArrayList<String> script = new ArrayList();
+                                                for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                    script.add(forsql.getUsado().getSqlused().get(i));
+                                                }
+                                                script.add(sql.getText());
+                                                Script en = new Script();
+                                                en.setSqlused(script);
+                                                forsql.setUsado(en);
+                                                abd.setActual(basesdedatos);
+                                                abd.escribirArchivo();
+                                                abd.cargarArchivo();
+                                                process();
                                             } else {
                                                 String c = mostrar[1];
                                                 String[] campos = c.split(",");
@@ -1645,6 +1742,18 @@ public class Principal extends javax.swing.JFrame {
                                                     }
                                                     tm.addRow(row);
                                                 }
+                                                ArrayList<String> script = new ArrayList();
+                                                for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                    script.add(forsql.getUsado().getSqlused().get(i));
+                                                }
+                                                script.add(sql.getText());
+                                                Script en = new Script();
+                                                en.setSqlused(script);
+                                                forsql.setUsado(en);
+                                                abd.setActual(basesdedatos);
+                                                abd.escribirArchivo();
+                                                abd.cargarArchivo();
+                                                process();
                                                 tabla.setModel(tm);
                                                 sql.setText("");
                                                 JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
@@ -1696,6 +1805,18 @@ public class Principal extends javax.swing.JFrame {
                                                 }
                                             }
                                             tabla.setModel(mod);
+                                            ArrayList<String> script = new ArrayList();
+                                            for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                                script.add(forsql.getUsado().getSqlused().get(i));
+                                            }
+                                            script.add(sql.getText());
+                                            Script en = new Script();
+                                            en.setSqlused(script);
+                                            forsql.setUsado(en);
+                                            abd.setActual(basesdedatos);
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            process();
                                             sql.setText(tab);
                                             JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
                                         }
@@ -1807,6 +1928,14 @@ public class Principal extends javax.swing.JFrame {
                                     }
                                     ref.getDetalle().set(num, nuv);
                                 }
+                                ArrayList<String> script = new ArrayList();
+                                for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                    script.add(forsql.getUsado().getSqlused().get(i));
+                                }
+                                script.add(sql.getText());
+                                Script en = new Script();
+                                en.setSqlused(script);
+                                forsql.setUsado(en);
                                 abd.setActual(basesdedatos);
                                 abd.escribirArchivo();
                                 abd.cargarArchivo();
@@ -1886,6 +2015,14 @@ public class Principal extends javax.swing.JFrame {
                                             listaparaborrar.set(j, (listaparaborrar.get(j) - 1));
                                         }
                                     }
+                                    ArrayList<String> script = new ArrayList();
+                                    for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                        script.add(forsql.getUsado().getSqlused().get(i));
+                                    }
+                                    script.add(sql.getText());
+                                    Script en = new Script();
+                                    en.setSqlused(script);
+                                    forsql.setUsado(en);
                                     abd.setActual(basesdedatos);
                                     abd.escribirArchivo();
                                     abd.cargarArchivo();
@@ -1914,6 +2051,14 @@ public class Principal extends javax.swing.JFrame {
                                             break;
                                         }
                                     }
+                                    ArrayList<String> script = new ArrayList();
+                                    for (int i = 0; i < forsql.getUsado().getSqlused().size(); i++) {
+                                        script.add(forsql.getUsado().getSqlused().get(i));
+                                    }
+                                    script.add(sql.getText());
+                                    Script en = new Script();
+                                    en.setSqlused(script);
+                                    forsql.setUsado(en);
                                     abd.setActual(basesdedatos);
                                     abd.escribirArchivo();
                                     abd.cargarArchivo();

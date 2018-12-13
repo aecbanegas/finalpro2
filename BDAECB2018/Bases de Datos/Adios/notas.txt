@@ -2,7 +2,7 @@
 nombre:notas
 base_de_datos:Adios
 creador:admin
-fecha_creacion:12/12/2018
+fecha_creacion:12/04/9618
 atributos:nombre,clase,calificacion
 #Detalles
 Andres,progra2,90

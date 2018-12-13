@@ -1,0 +1,1 @@
+CREATE DATABASE Universidad(id,num_est)

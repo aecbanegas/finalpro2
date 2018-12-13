@@ -1,0 +1,7 @@
+#Encabezado
+nombre:juegos
+base_de_datos:Adios
+creador:admin
+fecha_creacion:13/03/7718
+atributos:id,nombre,precio
+#Detalles

@@ -1,0 +1,8 @@
+CREATE DATABASE Adios
+CREATE TABLE religion(nom,region)
+CREATE TABLE est(id,num)
+TRUNCATE TABLE est
+DROP TABLE est
+DELETE FROM vaquero WHERE edad>18
+SELECT * FROM vaquero WHERE edad>16
+INSERT INTO vaquero VALUES(0801,Andres,18)

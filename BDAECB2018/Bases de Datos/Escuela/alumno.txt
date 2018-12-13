@@ -2,6 +2,6 @@
 nombre:alumno
 base_de_datos:Escuela
 creador:admin
-fecha_creacion:11/12/47618
+fecha_creacion:11/04/55218
 atributos:id,nombre,edad
 #Detalles
