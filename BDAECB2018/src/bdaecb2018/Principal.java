@@ -1116,10 +1116,6 @@ public class Principal extends javax.swing.JFrame {
                             break;
                         case "SELECT":
                             if (mostrar.length == 4) {
-//                                SELECT persona.Nombre, Notas.Clase, Notas.Nota_Final
-//FROM Persona, Notas
-//WHERE Persona.nombre = notas.Nombre_Persona AND  Notas.Nota_Final>90
-
                                 if (mostrar[1].equals("*")) {
                                     String tab = mostrar[3];
                                     for (int i = 0; i < basesdedatos.size(); i++) {
@@ -1384,122 +1380,125 @@ public class Principal extends javax.swing.JFrame {
                                         }
                                     }
                                     if (cont > 0) {
-                                        String c = mostrar[1];
-                                        String[] campos = c.split(",");
-                                        String tab = mostrar[3];
-                                        String cond = mostrar[5];
-                                        Scanner t = new Scanner(cond);
-                                        t.useDelimiter("[=]|[<]|[>]");
-                                        boolean mayor = false, menor = false, igual = false;
-                                        String campo = t.next();
-                                        String cumple = t.next();
-                                        int camp = 0;
-                                        for (int i = 0; i < cond.length(); i++) {
-                                            switch (cond.charAt(i)) {
-                                                case '<':
-                                                    menor = true;
-                                                    break;
-                                                case '>':
-                                                    mayor = true;
-                                                    break;
-                                                case '=':
-                                                    igual = true;
-                                                    break;
-                                                default:
-                                                    break;
-                                            }
-                                        }
-                                        for (int i = 0; i < basesdedatos.size(); i++) {
-                                            if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
-                                                forsql = basesdedatos.get(i);
-                                                break;
-                                            }
-                                        }
-                                        for (int i = 0; i < forsql.getTablas().size(); i++) {
-                                            if (forsql.getTablas().get(i).getNombre().equals(tab)) {
-                                                cargada = forsql.getTablas().get(i);
-                                                break;
-                                            }
-                                        }
-                                        int s = 0;
-                                        for (int i = 0; i < cargada.getAtributos().size(); i++) {
-                                            if (cargada.getAtributos().get(i).equals(campo)) {
-                                                s = i;
-                                            }
-                                        }
-                                        ArrayList<Integer> listamostrar = new ArrayList();
-                                        for (int i = 0; i < cargada.getDetalle().size(); i++) {
-                                            String det = cargada.getDetalle().get(i);
-                                            Scanner s2 = new Scanner(det);
-                                            s2.useDelimiter(",");
-                                            for (int j = 0; j <= s; j++) {
-                                                if (j == s) {
-                                                    System.out.println(igual + " " + menor + " " + mayor);
-                                                    if (igual) {
-                                                        if (cumple.equals(s2.next())) {
-                                                            System.out.println("igual");
-                                                            listamostrar.add(i);
-                                                        }
-                                                    }
-                                                    if (mayor) {
-                                                        if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
-                                                            System.out.println("mayor");
-                                                            listamostrar.add(i);
-                                                        }
-                                                    }
-                                                    if (menor) {
-                                                        if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
-                                                            System.out.println("menor");
-                                                            listamostrar.add(i);
-                                                        }
-                                                    }
-                                                } else {
-                                                    s2.next();
-                                                }
-                                            }
-                                        }
-                                        ArrayList<Integer> posiciones = new ArrayList();
-                                        for (int i = 0; i < cargada.getAtributos().size(); i++) {
-                                            for (int j = 0; j < campos.length; j++) {
-                                                if (campos[j].equals(cargada.getAtributos().get(i))) {
-                                                    posiciones.add(i);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        for (int i = 0; i < campos.length; i++) {
-                                            System.out.println(campos[i]);
-                                        }
-                                        System.out.println(listamostrar);
-                                        tabla.setModel(new javax.swing.table.DefaultTableModel(
-                                                new Object[][]{},
-                                                campos
-                                        ));
-                                        DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
-                                        for (int i = 0; i < listamostrar.size(); i++) {
-                                            ArrayList<String> fil = new ArrayList();
-                                            for (int j = 0; j < posiciones.size(); j++) {
-                                                int lim = 0;
-                                                Scanner sc = new Scanner(cargada.getDetalle().get(listamostrar.get(i)));
-                                                sc.useDelimiter(",");
-                                                while (sc.hasNext()) {
-                                                    String next = sc.next();
-                                                    if (lim == posiciones.get(j)) {
-                                                        fil.add(next);
-                                                    }
-                                                    lim++;
-                                                }
-                                            }
-                                            Object[] row = new Object[fil.size()];
-                                            for (int j = 0; j < fil.size(); j++) {
-                                                row[j] = fil.get(j);
-                                            }
-                                            tm.addRow(row);
-                                        }
-                                        tabla.setModel(tm);
-                                        sql.setText("");
-                                        JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+                                        if (conp > 0) {
 
+                                        } else {
+                                            String c = mostrar[1];
+                                            String[] campos = c.split(",");
+                                            String tab = mostrar[3];
+                                            String cond = mostrar[5];
+                                            Scanner t = new Scanner(cond);
+                                            t.useDelimiter("[=]|[<]|[>]");
+                                            boolean mayor = false, menor = false, igual = false;
+                                            String campo = t.next();
+                                            String cumple = t.next();
+                                            int camp = 0;
+                                            for (int i = 0; i < cond.length(); i++) {
+                                                switch (cond.charAt(i)) {
+                                                    case '<':
+                                                        menor = true;
+                                                        break;
+                                                    case '>':
+                                                        mayor = true;
+                                                        break;
+                                                    case '=':
+                                                        igual = true;
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                            }
+                                            for (int i = 0; i < basesdedatos.size(); i++) {
+                                                if (basesdedatos.get(i).getNombre().equals(((bdatos) cb_guardaren.getSelectedItem()).getNombre())) {
+                                                    forsql = basesdedatos.get(i);
+                                                    break;
+                                                }
+                                            }
+                                            for (int i = 0; i < forsql.getTablas().size(); i++) {
+                                                if (forsql.getTablas().get(i).getNombre().equals(tab)) {
+                                                    cargada = forsql.getTablas().get(i);
+                                                    break;
+                                                }
+                                            }
+                                            int s = 0;
+                                            for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                                if (cargada.getAtributos().get(i).equals(campo)) {
+                                                    s = i;
+                                                }
+                                            }
+                                            ArrayList<Integer> listamostrar = new ArrayList();
+                                            for (int i = 0; i < cargada.getDetalle().size(); i++) {
+                                                String det = cargada.getDetalle().get(i);
+                                                Scanner s2 = new Scanner(det);
+                                                s2.useDelimiter(",");
+                                                for (int j = 0; j <= s; j++) {
+                                                    if (j == s) {
+                                                        System.out.println(igual + " " + menor + " " + mayor);
+                                                        if (igual) {
+                                                            if (cumple.equals(s2.next())) {
+                                                                System.out.println("igual");
+                                                                listamostrar.add(i);
+                                                            }
+                                                        }
+                                                        if (mayor) {
+                                                            if (Integer.parseInt(cumple) < Integer.parseInt(s2.next())) {
+                                                                System.out.println("mayor");
+                                                                listamostrar.add(i);
+                                                            }
+                                                        }
+                                                        if (menor) {
+                                                            if (Integer.parseInt(cumple) > Integer.parseInt(s2.next())) {
+                                                                System.out.println("menor");
+                                                                listamostrar.add(i);
+                                                            }
+                                                        }
+                                                    } else {
+                                                        s2.next();
+                                                    }
+                                                }
+                                            }
+                                            ArrayList<Integer> posiciones = new ArrayList();
+                                            for (int i = 0; i < cargada.getAtributos().size(); i++) {
+                                                for (int j = 0; j < campos.length; j++) {
+                                                    if (campos[j].equals(cargada.getAtributos().get(i))) {
+                                                        posiciones.add(i);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            for (int i = 0; i < campos.length; i++) {
+                                                System.out.println(campos[i]);
+                                            }
+                                            System.out.println(listamostrar);
+                                            tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                    new Object[][]{},
+                                                    campos
+                                            ));
+                                            DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                                            for (int i = 0; i < listamostrar.size(); i++) {
+                                                ArrayList<String> fil = new ArrayList();
+                                                for (int j = 0; j < posiciones.size(); j++) {
+                                                    int lim = 0;
+                                                    Scanner sc = new Scanner(cargada.getDetalle().get(listamostrar.get(i)));
+                                                    sc.useDelimiter(",");
+                                                    while (sc.hasNext()) {
+                                                        String next = sc.next();
+                                                        if (lim == posiciones.get(j)) {
+                                                            fil.add(next);
+                                                        }
+                                                        lim++;
+                                                    }
+                                                }
+                                                Object[] row = new Object[fil.size()];
+                                                for (int j = 0; j < fil.size(); j++) {
+                                                    row[j] = fil.get(j);
+                                                }
+                                                tm.addRow(row);
+                                            }
+                                            tabla.setModel(tm);
+                                            sql.setText("");
+                                            JOptionPane.showMessageDialog(jd_menu, "Se ejecuto de forma correcta!");
+                                        }
                                     } else {
                                         String campo = mostrar[1];
                                         String tab = mostrar[3];
