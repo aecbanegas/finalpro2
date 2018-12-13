@@ -1488,7 +1488,7 @@ public class Principal extends javax.swing.JFrame {
                                                     }
                                                 }
                                                 ArrayList<Integer> pos = new ArrayList();
-                                                Object s1, s2;
+                                                Object s1=null, s2=null;
                                                 for (int i = 0; i < tablas.size(); i++) {
                                                     if (tablas.get(i).getNombre().equals(tabla1)) {
                                                         for (int j = 0; j < tablas.get(i).getDetalle().size(); j++) {
@@ -1503,25 +1503,39 @@ public class Principal extends javax.swing.JFrame {
                                                                 }
                                                                 lim++;
                                                             }
-                                                        }
-                                                    }
-                                                    if (tablas.get(i).getNombre().equals(tabla2)) {
-                                                        for (int j = 0; j < tablas.get(i).getDetalle().size(); j++) {
-                                                            int lim = 0;
-                                                            String gett = tablas.get(i).getDetalle().get(j);
-                                                            Scanner ss1 = new Scanner(gett);
-                                                            ss1.useDelimiter(",");
-                                                            while (ss1.hasNext()) {
-                                                                String next = ss1.next();
-                                                                if (lim == lugar2) {
-                                                                    s2 = next;
+                                                            for (int k = 0; k < tablas.size(); k++) {
+                                                                if (tablas.get(k).equals(tablas.get(i))) {
+                                                                } else {
+                                                                    for (int l = 0; l < tablas.get(k).getDetalle().size(); l++) {
+                                                                        int lim2 = 0;
+                                                                        String get = tablas.get(i).getDetalle().get(j);
+                                                                        Scanner sl = new Scanner(get);
+                                                                        sl.useDelimiter(",");
+                                                                        while (sl.hasNext()) {
+                                                                            String next = sl.next();
+                                                                            if (lim == lugar2) {
+                                                                                s2 = next;
+                                                                            }
+                                                                            lim2++;
+                                                                        }
+                                                                    }
+                                                                    if (s1.equals(s2)) {
+                                                                        pos.add(i);
+                                                                    }
                                                                 }
-                                                                lim++;
                                                             }
                                                         }
                                                     }
                                                 }
-
+                                                System.out.println(pos);
+                                                Object[] campos = new Object[camposselect.size()];
+                                                for (int i = 0; i < camposselect.size(); i++) {
+                                                    campos[i] = camposselect.get(i);
+                                                }
+                                                tabla.setModel(new javax.swing.table.DefaultTableModel(
+                                                        new Object[][]{},
+                                                        campos
+                                                ));
                                             } else {
                                                 String c = mostrar[1];
                                                 String[] campos = c.split(",");
@@ -1606,10 +1620,6 @@ public class Principal extends javax.swing.JFrame {
                                                         }
                                                     }
                                                 }
-                                                for (int i = 0; i < campos.length; i++) {
-                                                    System.out.println(campos[i]);
-                                                }
-                                                System.out.println(listamostrar);
                                                 tabla.setModel(new javax.swing.table.DefaultTableModel(
                                                         new Object[][]{},
                                                         campos
